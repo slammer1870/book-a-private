@@ -11,7 +11,7 @@ const Navbar = () => {
       <h1>Book a Private</h1>
       {!session && (
         <div>
-          <button onClick={() => signIn()}>Log In</button>
+          <button onClick={() => signIn()} data-testid="login">Log In</button>
           <button className="ml-4">Sign Up</button>
         </div>
       )}
