@@ -1,3 +1,4 @@
+import Head from "next/head";
 import React from "react";
 import Footer from "./Footer";
 
@@ -10,6 +11,9 @@ type Props = {
 const Layout = ({ children }: Props) => {
   return (
     <>
+      <Head>
+        <title>Book a Private</title>
+      </Head>
       <Navbar />
       <main>{children}</main>
       <Footer />
