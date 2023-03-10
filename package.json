@@ -12,9 +12,6 @@
     "prisma:migrate:prod": "npx prisma migrate deploy",
     "test": "docker-compose up -d && jest -i"
   },
-  "prisma": {
-    "schema": "prisma/schema.prisma"
-  },
   "dependencies": {
     "@next-auth/prisma-adapter": "^1.0.5",
     "@prisma/client": "^4.11.0",
