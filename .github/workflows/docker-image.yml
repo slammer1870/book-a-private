@@ -17,12 +17,6 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: '14'
-        
-    - name: Generate Prisma client
-      run: npx prisma generate
-
-    - name: Migrate db schema
-      run: npx prisma migrate dev
    
     - name: Build the Docker image
       run: npm run test
