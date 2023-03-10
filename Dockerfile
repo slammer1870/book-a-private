@@ -32,4 +32,9 @@ RUN mkdir -p .next dist
 RUN chown node:node . node_modules .next dist
 RUN chown -R node:node node_modules/.prisma
 
-CMD [ "npm run dev" ]
+CMD \
+  if [ -f yarn.lock ]; then yarn dev; \
+  elif [ -f package-lock.json ]; then npm run dev; \
+  elif [ -f pnpm-lock.yaml ]; then pnpm dev; \
+  else yarn dev; \
+  fi
