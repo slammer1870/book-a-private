@@ -1,13 +1,12 @@
 import { testApiHandler } from "next-test-api-route-handler";
 // Import the handler under test from the pages/api directory
-import endpoint, { config } from "@/pages/api/register";
+import endpoint from "@/pages/api/register";
 import type { PageConfig } from "next";
 
 import prisma from "../../lib/prisma";
 
 // Respect the Next.js config object if it's exported
 const handler: typeof endpoint & { config?: PageConfig } = endpoint;
-handler.config = config;
 
 const user = {
   name: "John Doe",
