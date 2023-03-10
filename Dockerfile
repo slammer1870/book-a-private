@@ -1,59 +1,52 @@
-FROM node:18-alpine AS base
 
-# Install dependencies only when needed
-FROM base AS deps
-# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-RUN apk add --no-cache libc6-compat
+# use alpine for tests like prod
+ARG BASE=node:16-alpine
+
+# simplified prod build
+# migrate, seed, build
+#---------------------
+
+FROM ${BASE} AS dependencies
+
+RUN whoami && id
+
+# openssl for prisma client, bash for jest-preview
+RUN apk update && apk add --no-cache openssl libc6-compat bash
+
 WORKDIR /app
+ENV NODE_ENV development
 
-# Install dependencies based on the preferred package manager
-COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
-RUN \
-  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
-  elif [ -f package-lock.json ]; then npm ci; \
-  elif [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm i --frozen-lockfile; \
-  else echo "Lockfile not found." && exit 1; \
-  fi
+# prepare only node_modules and prisma client
+# src will be mounted via volume
+# build at runtime, not here
+COPY package.json yarn.lock ./
+COPY prisma ./prisma
 
+# dev dependencies for api integration testing
+RUN yarn install
+RUN npx prisma generate
 
-# Rebuild the source code only when needed
-FROM base AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
-COPY . .
+RUN rm -rf prisma
 
-# Next.js collects completely anonymous telemetry data about general usage.
-# Learn more here: https://nextjs.org/telemetry
-# Uncomment the following line in case you want to disable telemetry during the build.
-# ENV NEXT_TELEMETRY_DISABLED 1
+ENV NODE_ENV test
 
-# RUN yarn build
+# volumes folders must be created and chowned before docker-compose creates them as root
+# create them during docker build
+RUN mkdir -p .next dist
+RUN chown node:node . node_modules .next dist
+RUN chown -R node:node node_modules/.prisma
 
-# If using npm comment out above and use below instead
-RUN npm run build
+USER node
 
-# Production image, copy all the files and run next
-FROM base AS runner
-WORKDIR /app
+# on container
+EXPOSE 3001
+# env for app
+ENV PORT 3001
 
-ENV NODE_ENV production
-# Uncomment the following line in case you want to disable telemetry during runtime.
-# ENV NEXT_TELEMETRY_DISABLED 1
+# build app at runtime, not here
+# api integration tests dont need built prod app, Jest runs code
 
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-
-COPY --from=builder /app/public ./public
-
-# Automatically leverage output traces to reduce image size
-# https://nextjs.org/docs/advanced-features/output-file-tracing
-# COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-
-USER nextjs
-
-EXPOSE 3000
-
-ENV PORT 3000
-
-CMD ["node", "server.js"]
+# 1. migrate prod, 2. build app, 3. start prod
+# default: just 1. migrate and shut down - for integration tests
+# for e2e: 1, 2 and 3
+CMD [ "yarn", "prisma:migrate:prod" ]
