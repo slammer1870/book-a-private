@@ -16,12 +16,12 @@ jobs:
     services:
       postgres:
         image: postgres:13
-      env:
-        POSTGRES_USER: prisma
-        POSTGRES_PASSWORD: prisma
-        POSTGRES_DB: tests
-      ports:
-        - 5433:5432
+        env:
+          POSTGRES_USER: prisma
+          POSTGRES_PASSWORD: prisma
+          POSTGRES_DB: tests
+        ports:
+          - 5433:5432
 
     steps:
       - name: Check out code
