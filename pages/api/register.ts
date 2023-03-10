@@ -11,13 +11,14 @@ export default async function handle(
   res: NextApiResponse
 ) {
   if (req.method == "POST") {
-    const { name, email } = req.body;
+    const { name, email, username } = req.body;
 
     try {
       const result = await prisma.user.create({
         data: {
           name: name,
           email: email,
+          username: username,
         },
       });
       res.json(result);
@@ -25,9 +26,9 @@ export default async function handle(
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         // The .code property can be accessed in a type-safe manner
         if (error.code === "P2002") {
-          res
-            .status(401)
-            .send({ message: "User with this email already exists" });
+          res.status(401).send({
+            message: "User with this username or email already exists",
+          });
         }
       }
     }
