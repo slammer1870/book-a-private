@@ -13,6 +13,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Generate Prisma client
+      run: npx prisma generate
+
+    - name: Migrate db schema
+      run: npx prisma migrate deploy
+   
     - name: Build the Docker image
       run: npm run test
