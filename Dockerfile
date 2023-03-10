@@ -18,10 +18,8 @@ RUN \
   else echo "Lockfile not found." && exit 1; \
   fi
 
-
 # Rebuild the source code only when needed
 
-COPY package.json yarn.lock ./
 COPY prisma ./prisma
 
 # Next.js collects completely anonymous telemetry data about general usage.
@@ -29,7 +27,6 @@ COPY prisma ./prisma
 # Uncomment the following line in case you want to disable telemetry during the build.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
-RUN yarn install
 RUN npx prisma generate
 
 RUN rm -rf prisma
@@ -50,4 +47,4 @@ EXPOSE 3000
 
 ENV PORT 3000
 
-CMD [ "yarn", "prisma:migrate:prod" ]
+CMD [ "npm", "prisma:migrate:prod" ]
