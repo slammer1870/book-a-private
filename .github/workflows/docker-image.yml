@@ -22,7 +22,7 @@ jobs:
       run: npx prisma generate
 
     - name: Migrate db schema
-      run: npx prisma migrate deploy
+      run: npx prisma migrate dev
    
     - name: Build the Docker image
       run: npm run test
