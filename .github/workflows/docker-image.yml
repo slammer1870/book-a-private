@@ -17,6 +17,9 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: '14'
+    
+    - name: Install dependancies
+      run: npm install
    
     - name: Build the Docker image
       run: npm run test
