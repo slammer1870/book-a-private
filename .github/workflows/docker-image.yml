@@ -43,4 +43,4 @@ jobs:
 
         # integrated controllers with services
       - name: Run server integration tests
-        run: npm test:server:integration
+        run: npm run test:server:integration
