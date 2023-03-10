@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
-import Navbar from "@/components/navbar";
+import Navbar from "@/components/Navbar";
 
 jest.mock("next-auth/react");
 import { useSession, signIn, signOut } from "next-auth/react";
