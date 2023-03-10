@@ -13,6 +13,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Setup node
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16.13.1'
+        cache: 'yarn'
+        
     - name: Generate Prisma client
       run: npx prisma generate
 
