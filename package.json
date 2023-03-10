@@ -9,7 +9,7 @@
     "lint": "next lint",
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
-    "test": "docker-compose up -d && prisma migrate deploy && jest -i"
+    "test": "docker-compose up -d && prisma generate && prisma migrate dev && jest -i"
   },
   "dependencies": {
     "@next-auth/prisma-adapter": "^1.0.5",
