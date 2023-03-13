@@ -1,6 +1,7 @@
 import React from "react";
 
 import { signIn, signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 
 const Navbar = () => {
   const { data: session, status } = useSession();
@@ -9,19 +10,31 @@ const Navbar = () => {
   return (
     <div className="absolute top-0 left-0 w-full">
       <nav className="container mx-auto flex items-center justify-between p-4">
-        <h1 className="font-semibold text-lg">Book a Private</h1>
-        {!session && (
+        <Link href="/">
+          <h1 className="font-semibold text-lg">Book a Private</h1>
+        </Link>
+        {!session && !loading && (
           <div>
             <button onClick={() => signIn()} data-testid="login">
               Log In
             </button>
-            <button className="ml-4 p-2 bg-gray-500 text-white rounded">Sign Up</button>
+            <Link href="/register">
+              <button className="ml-4 p-2 bg-gray-500 text-white rounded">
+                Sign Up
+              </button>
+            </Link>
           </div>
         )}
-        {!session && loading && <p className="pulse">Loading...</p>}
+        {!session && loading && (
+          <div>
+            <p className="pulse">Loading...</p>
+          </div>
+        )}
         {session && (
           <div>
-            <button>Dashboard</button>
+            <Link href="/dashboard">
+              <button>Dashboard</button>
+            </Link>
             <button onClick={() => signOut()} className="ml-4">
               Log Out
             </button>

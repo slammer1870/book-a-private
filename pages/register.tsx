@@ -18,6 +18,8 @@ export default function Register() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
+  const [loadingSpinner, setLoadingSpinner] = useState(false);
+
   useEffect(() => {
     if (username) {
       setUsernameValue(username);
@@ -26,6 +28,7 @@ export default function Register() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoadingSpinner(true);
     const res = await fetch("/api/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -38,6 +41,8 @@ export default function Register() {
 
     const data = await res.json();
     const { error } = data;
+
+    setLoadingSpinner(false);
 
     if (error) {
       setError(error);
@@ -103,12 +108,25 @@ export default function Register() {
             {error && (
               <p className="text-sm text-red-500 font-medium">{error}</p>
             )}
-            <button
-              className="p-2 bg-gray-400 text-white w-full rounded mt-4"
-              type="submit"
-            >
-              Claim your profile
-            </button>
+            {!loadingSpinner ? (
+              <button
+                className="p-2 bg-gray-400 text-white w-full rounded mt-4"
+                type="submit"
+              >
+                Claim your profile
+              </button>
+            ) : (
+              <div className="flex items-center justify-center p-2 bg-gray-400 text-white w-full rounded mt-6">
+                <div
+                  className="inline-block h-6 w-6 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                  role="status"
+                >
+                  <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                    Loading...
+                  </span>
+                </div>
+              </div>
+            )}
           </form>
         </div>
       </div>
