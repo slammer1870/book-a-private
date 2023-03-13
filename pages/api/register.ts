@@ -3,9 +3,7 @@ import { Prisma } from "@prisma/client";
 
 import prisma from "../../lib/prisma";
 
-// POST /api/post
-// Required fields in body: title
-// Optional fields in body: content
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -14,6 +12,7 @@ export default async function handler(
     const { name, email, username } = req.body;
 
     try {
+      //creates the user in the db
       const result = await prisma.user.create({
         data: {
           name: name,
@@ -21,15 +20,20 @@ export default async function handler(
           username: username,
         },
       });
+
       res.json(result);
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         // The .code property can be accessed in a type-safe manner
         if (error.code === "P2002") {
           res.status(401).send({
-            message: "User with this username or email already exists",
+            error: "User with this username or email already exists",
           });
         }
+      } else {
+        res.status(401).send({
+          error: "Something went wrong.",
+        });
       }
     }
   } else {

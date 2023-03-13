@@ -1,5 +1,5 @@
 import Layout from "@/components/Layout";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -43,13 +43,16 @@ export default function Home() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (message) {
-      router.push(`/register/?username=${e.currentTarget.username.value}`);
+      Router.push({
+        pathname: "/register/",
+        query: { username: e.currentTarget.username.value },
+      });
     }
   };
 
   return (
     <Layout>
-      <div className="container mx-auto p-4 flex min-h-screen tsext-gray-900">
+      <div className="container mx-auto p-4 flex min-h-screen text-gray-900">
         <div className="mx-auto my-auto bg-indigo-100 p-4 rounded w-full max-w-screen-sm">
           <h1 className="text-2xl font-semibold">Book a Private</h1>
           <p className="text-gray-700 mb-4">
