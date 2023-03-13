@@ -11,7 +11,7 @@ const handler: typeof endpoint & { config?: PageConfig } = endpoint;
 const user = {
   name: "John Doe",
   email: "johndoe@gmail.com",
-  username: "jdoe1"
+  username: "jdoe1",
 };
 
 describe("testing user registration for endpoint /api/register/", () => {
@@ -42,7 +42,7 @@ describe("testing user registration for endpoint /api/register/", () => {
           body: JSON.stringify(user),
         });
         await expect(res.json()).resolves.toStrictEqual({
-          message: "User with this username or email already exists",
+          error: "User with this username or email already exists",
         }); // ◄ Passes!
       },
     });
