@@ -4,6 +4,8 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import EmailProvider from "next-auth/providers/email";
 import prisma from "../../../lib/prisma";
 
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+
 const authHandler: NextApiHandler = (req, res) => NextAuth(req, res, options);
 export default authHandler;
 
@@ -23,4 +25,23 @@ const options: NextAuthOptions = {
   ],
   adapter: PrismaAdapter(prisma),
   secret: process.env.SECRET,
+  events: {
+    async updateUser(message) {
+      console.log(message);
+
+      const account = await stripe.accounts.create({
+        type: "standard",
+        email: message.user.email,
+      });
+
+      const user = await prisma.user.update({
+        where: {
+          email: message.user.email,
+        },
+        data: {
+          stripeAccountId: account.id,
+        },
+      });
+    },
+  },
 };
