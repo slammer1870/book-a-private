@@ -24,7 +24,7 @@ export default function Register() {
     if (username) {
       setUsernameValue(username);
     }
-  }, [router]);
+  }, [router]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
