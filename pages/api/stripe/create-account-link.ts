@@ -3,7 +3,11 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]";
 
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+import Stripe from "stripe";
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  // https://github.com/stripe/stripe-node#configuration
+  apiVersion: "2022-11-15",
+});
 
 export default async function handler(
   req: NextApiRequest,
@@ -14,7 +18,7 @@ export default async function handler(
   if (session) {
     try {
       const accountLink = await stripe.accountLinks.create({
-        account: session.user.stripeAccountId,
+        account: session.user.stripeAccountId as string,
         refresh_url: `${process.env.VERCEL_URL}/dashboard`,
         return_url: `${process.env.VERCEL_URL}/dashboard`,
         type: "account_onboarding",
