@@ -8,7 +8,7 @@ import Cors from "micro-cors";
 import Stripe from "stripe";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   // https://github.com/stripe/stripe-node#configuration
-  apiVersion: "2020-08-27",
+  apiVersion: "2022-11-15",
 });
 
 const webhookSecret: string = process.env.STRIPE_WEBHOOK_SECRET!;
@@ -50,7 +50,7 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     console.log("✅ Success:", event.id);
 
     if (event.type === "account.updated") {
-      const account = event.data.object;
+      const account = event.data.object as Stripe.Account;
 
       // find the user with stripe account id
       const user = await prisma.user.findUnique({
