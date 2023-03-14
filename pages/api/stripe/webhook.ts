@@ -52,16 +52,12 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (event.type === "account.updated") {
       const account = event.data.object;
 
-      console.log("account is", account);
-
       // find the user with stripe account id
       const user = await prisma.user.findUnique({
         where: {
           stripeAccountId: account.id,
         },
       });
-
-      console.log("user is", user);
 
       // check to see if user has not previosuly verified stripe account but webhook has payouts enabled
       if (!user?.stripeAccountVerified && account.payouts_enabled == true) {
