@@ -6,10 +6,7 @@ import prisma from "../../../lib/prisma";
 
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
-const authHandler: NextApiHandler = (req, res) => NextAuth(req, res, options);
-export default authHandler;
-
-const options: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     EmailProvider({
       server: {
@@ -25,23 +22,63 @@ const options: NextAuthOptions = {
   ],
   adapter: PrismaAdapter(prisma),
   secret: process.env.SECRET,
+
+  session: {
+    strategy: "jwt",
+  },
+
+  callbacks: {
+    async signIn({ user }) {
+      if (!user.stripeAccountId) {
+        const account = await stripe.accounts.create({
+          type: "standard",
+          email: user.email,
+        });
+
+        const userUpdate = await prisma.user.update({
+          where: {
+            email: user.email,
+          },
+          data: {
+            stripeAccountId: account.id,
+          },
+        });
+      }
+
+      return true;
+    },
+    async jwt({ token, account, user }) {
+      if (user) {
+        token.user = user;
+      }
+      return token;
+    },
+    async session({ token, user, session }) {
+      if (token.user) {
+        session.user = token.user;
+      }
+      return session;
+    },
+  },
   events: {
-    async updateUser(message) {
-      console.log(message);
-
-      const account = await stripe.accounts.create({
-        type: "standard",
-        email: message.user.email,
-      });
-
-      const user = await prisma.user.update({
-        where: {
+    async signIn(message) {
+      if (!message.user.stripeAccountId) {
+        const account = await stripe.accounts.create({
+          type: "standard",
           email: message.user.email,
-        },
-        data: {
-          stripeAccountId: account.id,
-        },
-      });
+        });
+
+        const user = await prisma.user.update({
+          where: {
+            email: message.user.email,
+          },
+          data: {
+            stripeAccountId: account.id,
+          },
+        });
+      }
     },
   },
 };
+
+export default NextAuth(authOptions);

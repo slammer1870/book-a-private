@@ -36,15 +36,16 @@ model Session {
 }
 
 model User {
-  id              String    @id @default(cuid())
-  name            String?
-  email           String?   @unique
-  username        String?   @unique
-  emailVerified   DateTime?
-  image           String?
-  stripeAccountId String?
-  accounts        Account[]
-  sessions        Session[]
+  id                    String    @id @default(cuid())
+  name                  String?
+  email                 String?   @unique
+  username              String?   @unique
+  emailVerified         DateTime?
+  image                 String?
+  stripeAccountId       String?   @unique
+  stripeAccountVerified DateTime?
+  accounts              Account[]
+  sessions              Session[]
 
   @@unique([email, username])
 }

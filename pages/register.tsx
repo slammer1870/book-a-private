@@ -50,7 +50,7 @@ export default function Register() {
 
     if (res.ok) {
       setError("");
-      signIn("email", { email: emailValue });
+      signIn("email", { email: emailValue, callbackUrl: "/dashboard" });
     }
   };
 
