@@ -1,4 +1,4 @@
-import NextAuth, { DefaultSession } from "next-auth";
+import NextAuth, { DefaultSession, DefaultUser, DefaultToken } from "next-auth";
 
 declare module "next-auth" {
   /**
@@ -7,14 +7,22 @@ declare module "next-auth" {
   interface Session {
     user: {
       /** The user's stripe account details. */
-      stripeAccountId: string;
+      stripeAccountId: String;
       stripeAccountVerified: Date;
     } & DefaultSession["user"];
   }
 
   interface User {
     /** The user's stripe account details. */
-    stripeAccountId: string;
+    stripeAccountId: String;
     stripeAccountVerified: Date;
   }
+}
+
+interface Token {
+  user: {
+    /** The user's stripe account details. */
+    stripeAccountId: String;
+    stripeAccountVerified: Date;
+  } & DefaultToken["user"];
 }

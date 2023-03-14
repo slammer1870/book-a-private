@@ -1,5 +1,5 @@
 import { NextApiHandler } from "next";
-import NextAuth, { NextAuthOptions } from "next-auth";
+import NextAuth, { NextAuthOptions, Session, User } from "next-auth";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import EmailProvider from "next-auth/providers/email";
 import prisma from "../../../lib/prisma";
@@ -37,7 +37,7 @@ export const authOptions: NextAuthOptions = {
 
         const userUpdate = await prisma.user.update({
           where: {
-            email: user.email,
+            email: user.email as string,
           },
           data: {
             stripeAccountId: account.id,
@@ -55,7 +55,7 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ token, user, session }) {
       if (token.user) {
-        session.user = token.user;
+        session.user = token.user as User;
       }
       return session;
     },
@@ -70,7 +70,7 @@ export const authOptions: NextAuthOptions = {
 
         const user = await prisma.user.update({
           where: {
-            email: message.user.email,
+            email: message.user.email as string,
           },
           data: {
             stripeAccountId: account.id,
