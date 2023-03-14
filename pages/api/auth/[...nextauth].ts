@@ -28,18 +28,32 @@ export const authOptions: NextAuthOptions = {
   },
 
   callbacks: {
+    async signIn({ user }) {
+      if (!user.stripeAccountId) {
+        const account = await stripe.accounts.create({
+          type: "standard",
+          email: user.email,
+        });
+
+        const userUpdate = await prisma.user.update({
+          where: {
+            email: user.email,
+          },
+          data: {
+            stripeAccountId: account.id,
+          },
+        });
+      }
+
+      return true;
+    },
     async jwt({ token, account, user }) {
-      console.log("token is", token);
-      console.log("user is", user);
       if (user) {
         token.user = user;
       }
       return token;
     },
     async session({ token, user, session }) {
-      console.log("session is", session);
-      console.log("session token is", token);
-      console.log("session user is", user);
       if (token.user) {
         session.user = token.user;
       }
@@ -47,9 +61,7 @@ export const authOptions: NextAuthOptions = {
     },
   },
   events: {
-    async updateUser(message) {
-      console.log("message is", message);
-
+    async signIn(message) {
       if (!message.user.stripeAccountId) {
         const account = await stripe.accounts.create({
           type: "standard",

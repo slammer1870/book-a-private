@@ -11,8 +11,6 @@ export default async function handler(
 ) {
   const session = await getServerSession(req, res, authOptions);
 
-  console.log("account link session is", session);
-
   if (session) {
     try {
       const accountLink = await stripe.accountLinks.create({
