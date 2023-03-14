@@ -24,14 +24,14 @@ export default async function handler(
         type: "account_onboarding",
       });
 
-      res.json(accountLink);
+      return res.json(accountLink);
     } catch (error) {
       if (error instanceof Error) {
-        res.status(401).send({ error: error.message });
+        return res.status(401).send({ error: error.message });
       }
-      res.status(401).send({ error: "Something went wrong" });
+      return res.status(401).send({ error: "Something went wrong" });
     }
   } else {
-    res.status(401).send({ error: "Unauthorized" });
+    return res.status(401).send({ error: "Unauthorized" });
   }
 }
