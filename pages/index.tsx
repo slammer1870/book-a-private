@@ -11,7 +11,7 @@ export default function Home() {
 
   useEffect(() => {
     const validateUsername = async () => {
-      const res = await fetch("/api/validate-username", {
+      const res = await fetch("/api/users/validate-username", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username: username }),

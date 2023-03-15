@@ -60,24 +60,8 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
-  events: {
-    /*async signIn(message) {
-      if (!message.user.stripeAccountId) {
-        const account = await stripe.accounts.create({
-          type: "standard",
-          email: message.user.email,
-        });
-
-        const user = await prisma.user.update({
-          where: {
-            email: message.user.email as string,
-          },
-          data: {
-            stripeAccountId: account.id,
-          },
-        });
-      }
-    },*/
+  pages: {
+    signIn: "/signin",
   },
 };
 
