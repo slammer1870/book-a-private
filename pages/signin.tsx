@@ -1,10 +1,11 @@
 import Layout from "@/components/Layout";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 
 import { signIn, useSession } from "next-auth/react";
 
-export default function Register() {
+export default function SignIn() {
   const router = useRouter();
 
   const { data: session } = useSession();
@@ -26,46 +27,13 @@ export default function Register() {
     }
   }, [router]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  useEffect(() => {
-    const validateUsername = async () => {
-      const res = await fetch("/api/users/validate-username", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username: usernameValue }),
-      });
-
-      const data = await res.json();
-
-      const { message, error } = data;
-
-      if (error) {
-        setMessage("");
-        setError(error);
-      }
-
-      if (message) {
-        setError("");
-        setMessage(message);
-      }
-    };
-
-    if (usernameValue.length > 4) {
-      validateUsername();
-    } else {
-      setError("");
-      setMessage("");
-    }
-  }, [usernameValue]);
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoadingSpinner(true);
-    const res = await fetch("/api/users/register", {
+    const res = await fetch("/api/users/check-user-exists", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        username: usernameValue,
-        name: nameValue,
         email: emailValue,
       }),
     });
@@ -93,34 +61,9 @@ export default function Register() {
     <Layout>
       <div className="container mx-auto p-4 flex min-h-screen text-gray-900">
         <div className="mx-auto my-auto bg-indigo-100 p-4 rounded w-full max-w-screen-sm">
-          <h1 className="text-2xl font-semibold">Complete your registration</h1>
+          <h1 className="text-2xl font-semibold">Sign In</h1>
           <p className="text-gray-700 mb-4">Enter your details below.</p>
           <form onSubmit={(e) => handleSubmit(e)}>
-            <div className="flex flex-col mb-4">
-              <label className="mb-1 font-medium">Username</label>
-              <input
-                value={usernameValue}
-                className="p-2 rounded"
-                onChange={(e) => setUsernameValue(e.currentTarget.value)}
-                type="text"
-                name="username"
-                id="username"
-                minLength={5}
-                required
-              ></input>
-            </div>
-            <div className="flex flex-col mb-4">
-              <label className="mb-1 font-medium">Name</label>
-              <input
-                value={nameValue}
-                className="p-2 rounded"
-                onChange={(e) => setNameValue(e.currentTarget.value)}
-                type="text"
-                name="name"
-                id="name"
-                required
-              ></input>
-            </div>
             <div className="flex flex-col mb-2">
               <label className="mb-1 font-medium">Email</label>
               <input
@@ -137,14 +80,19 @@ export default function Register() {
               <p className="text-sm text-green-500 font-medium">{message}</p>
             )}
             {error && (
-              <p className="text-sm text-red-500 font-medium">{error}</p>
+              <div className="text-sm text-gray-900 flex items-center">
+                <p className="text-red-500 font-medium">{error}</p>
+                <Link href="/register" className="font-bold underline ml-2">
+                  <span>Click here to Reigster</span>
+                </Link>
+              </div>
             )}
             {!loadingSpinner ? (
               <button
                 className="p-2 bg-gray-400 text-white w-full rounded mt-4"
                 type="submit"
               >
-                Claim your profile
+                Submit
               </button>
             ) : (
               <div className="flex items-center justify-center p-2 bg-gray-400 text-white w-full rounded mt-6">
