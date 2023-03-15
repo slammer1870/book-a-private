@@ -61,7 +61,7 @@ export const authOptions: NextAuthOptions = {
     },
   },
   events: {
-    async signIn(message) {
+    /*async signIn(message) {
       if (!message.user.stripeAccountId) {
         const account = await stripe.accounts.create({
           type: "standard",
@@ -77,7 +77,7 @@ export const authOptions: NextAuthOptions = {
           },
         });
       }
-    },
+    },*/
   },
 };
 
