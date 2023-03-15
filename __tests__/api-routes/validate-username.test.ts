@@ -1,6 +1,6 @@
 import { testApiHandler } from "next-test-api-route-handler";
 // Import the handler under test from the pages/api directory
-import endpoint from "@/pages/api/validate-username";
+import endpoint from "@/pages/api/users/validate-username";
 import type { PageConfig } from "next";
 
 import prisma from "../../lib/prisma";
