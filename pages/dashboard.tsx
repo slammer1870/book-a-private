@@ -6,30 +6,39 @@ import { useRouter } from "next/router";
 
 import { useState, useEffect } from "react";
 
+type Lesson = {
+  id: String;
+  date: Date;
+};
+
 export default function Dashboard() {
   const router = useRouter();
 
   const { data: session, status } = useSession();
+
   const loading = status == "loading";
 
-  if (!loading && !session) {
-    return router.push("/signin");
-  }
-
   const [selectedDate, setSelectedDate] = useState("");
-  const [selectedTime, setSelectedTime] = useState();
-  const [selectedInstructor, setSelectedInstructor] = useState();
-  const [name, setName] = useState();
-  const [email, setEmail] = useState();
-  const [modal, setModal] = useState();
+  const [lessons, setLessons] = useState([]);
+  const [filteredLessons, setFilteredLessons] = useState([]);
 
-  const [isLoading, setLoading] = useState(true);
-  const [schedules, setSchedules] = useState([]);
-  const [data, setData] = useState();
+  useEffect(() => {
+    const getLessons = async () => {
+      const res = await fetch("/api/bookings/get-lessons", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_id: session?.user.id as string }),
+      });
 
-  const [clientSecret, setClientSecret] = useState("");
+      const data = await res.json();
 
-  const url = `https://${process.env.VERCEL_URL}` || "http://locahost:3000";
+      setLessons(data);
+    };
+
+    if (!loading && session) {
+      getLessons();
+    }
+  }, [session, loading]);
 
   //get todays date
   let d = new Date();
@@ -54,7 +63,7 @@ export default function Dashboard() {
   ];
 
   //setting the initial state of the month string
-  const [month, setMonth] = useState();
+  const [month, setMonth] = useState("");
 
   //calculating the number of days in a month given the month and year
   const getDays = (month: number, year: number) => {
@@ -84,9 +93,15 @@ export default function Dashboard() {
     }
   };
 
+  console.log(lessons);
+
+  if (!loading && !session) {
+    return router.push("/signin");
+  }
+
   return (
     <Layout>
-      <div className="max-w-screen-md mx-auto px-4 py-20">
+      <div className="max-w-screen-md mx-auto px-4 py-20 min-h-screen">
         <h1 className="text-3xl font-medium mb-2">Dashboard</h1>
         {loading && <p className="text-gray-700 animate-pulse">Loading...</p>}
         {!loading && session?.user.stripeAccountVerified ? (
@@ -172,8 +187,13 @@ export default function Dashboard() {
                           <button
                             onClick={() => {
                               setSelectedDate(day.toDateString());
-                              setSelectedTime(null);
-                              setSelectedInstructor(null);
+                              setFilteredLessons(
+                                lessons.filter(
+                                  (lesson: Lesson) =>
+                                    new Date(lesson.date).getDate() ==
+                                    day.getDate()
+                                )
+                              );
                             }}
                             className={`${
                               selectedDate &&
@@ -195,6 +215,45 @@ export default function Dashboard() {
                       </>
                     ))}
                   </>
+                </div>
+              </div>
+              <div className="mb-4">
+                <div className="item-center mb-4 flex justify-center bg-gray-200 p-2 text-center">
+                  <span className="">Select a time</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className={`${
+                      selectedDate && "rotate-90"
+                    } my-auto ml-4 h-3 w-3`}
+                  >
+                    <path
+                      id="Polygon_17"
+                      data-name="Polygon 17"
+                      d="M6.5,0,13,11.762H0Z"
+                      transform="translate(11.762) rotate(90)"
+                      fill="#525252"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  {selectedDate && (
+                    <>
+                      <button className="border border-dashed p-4 mb-4 w-full text-center text-gray-700 font-thin text-xl">
+                        Add a new lesson
+                      </button>
+                      <div className="grid grid-cols-3 gap-4">
+                        {filteredLessons.map((lesson: Lesson) => (
+                          <button
+                            key={null}
+                            className={`
+                        col-span-1 cursor-default rounded-md border p-2 text-sm`}
+                          >
+                            {new Date(lesson.date).toLocaleTimeString()}
+                          </button>
+                        ))}
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
