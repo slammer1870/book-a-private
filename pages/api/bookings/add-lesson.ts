@@ -18,15 +18,30 @@ export default async function handler(
 
     if (session) {
       const { date, location, price } = req.body;
-      const lesson = await prisma.lesson.create({
-        data: {
-          date: date,
-          location: location,
-          price: price,
-          userId: session?.user.id as string,
-        },
-      });
-      return res.json(lesson);
+      try {
+        const lesson = await prisma.lesson.create({
+          data: {
+            date: date,
+            location: location,
+            price: Number(price),
+            userId: session?.user.id as string,
+          },
+        });
+        return res.json(lesson);
+      } catch (error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+          // The .code property can be accessed in a type-safe manner
+          if (error.code === "P2002") {
+            res.status(401).send({
+              error: "Lesson at this date and time already exists",
+            });
+          }
+        } else {
+          res.status(401).send({
+            error: "Something went wrong.",
+          });
+        }
+      }
     } else {
       res.status(401).send({ message: "Unauthorized" });
     }

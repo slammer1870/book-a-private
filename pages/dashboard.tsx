@@ -4,7 +4,7 @@ import { User } from "next-auth";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, FormEvent } from "react";
 
 type Lesson = {
   id: String;
@@ -18,9 +18,51 @@ export default function Dashboard() {
 
   const loading = status == "loading";
 
-  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedDate, setSelectedDate] = useState<Date>();
   const [lessons, setLessons] = useState([]);
   const [filteredLessons, setFilteredLessons] = useState([]);
+  const [modal, setModal] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    const time = e.target.time.value.split(":");
+    const newDate = new Date(
+      selectedDate?.getFullYear(),
+      selectedDate?.getMonth(),
+      selectedDate?.getDate(),
+      time[0],
+      time[1]
+    );
+    const res = await fetch("/api/bookings/add-lesson", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        date: newDate,
+        location: e.target.location.value,
+        price: e.target.price.value,
+      }),
+    });
+
+    const data = await res.json();
+
+    const { error } = data;
+
+    if (res.ok) {
+      setModal(false);
+      setError("");
+      filteredLessons.push(data);
+      setFilteredLessons(
+        filteredLessons.sort(({ date: a }, { date: b }) =>
+          a > b ? 1 : a < b ? -1 : 0
+        )
+      );
+    }
+
+    if (error) {
+      setError(error);
+    }
+  };
 
   useEffect(() => {
     const getLessons = async () => {
@@ -92,8 +134,6 @@ export default function Dashboard() {
       return 1;
     }
   };
-
-  console.log(lessons);
 
   if (!loading && !session) {
     return router.push("/signin");
@@ -181,12 +221,12 @@ export default function Dashboard() {
                     ></div>
                   ))}
                   <>
-                    {days.map((day) => (
+                    {days.map((day: Date) => (
                       <>
                         {day >= d ? (
                           <button
                             onClick={() => {
-                              setSelectedDate(day.toDateString());
+                              setSelectedDate(day);
                               setFilteredLessons(
                                 lessons.filter(
                                   (lesson: Lesson) =>
@@ -197,7 +237,7 @@ export default function Dashboard() {
                             }}
                             className={`${
                               selectedDate &&
-                              selectedDate == day.toDateString() &&
+                              selectedDate == day &&
                               "border-none bg-indigo-400 text-white shadow-lg"
                             } mx-auto my-auto flex h-7 w-7 cursor-pointer items-center justify-center rounded-full border border-gray-900`}
                           >
@@ -238,9 +278,79 @@ export default function Dashboard() {
                 <div>
                   {selectedDate && (
                     <>
-                      <button className="border border-dashed p-4 mb-4 w-full text-center text-gray-700 font-thin text-xl">
-                        Add a new lesson
+                      <button
+                        onClick={() => setModal(true)}
+                        className="border border-dashed p-4 mb-4 w-full text-center text-gray-700 font-thin text-xl"
+                      >
+                        + Add a new lesson
                       </button>
+                      {modal && (
+                        <div className="w-screen h-screen inset-0 absolute bg-gray-900 bg-opacity-75 z-10">
+                          <div className="w-full">
+                            <div className="flex container mx-auto p-4">
+                              <span
+                                onClick={() => setModal(false)}
+                                className="text-4xl text-white cursor-pointer ml-auto"
+                              >
+                                X
+                              </span>
+                            </div>
+                            <div className="w-screen h-screen flex items-center justify-center p-4">
+                              <form
+                                onSubmit={(e) => handleSubmit(e)}
+                                className="w-full max-w-screen-sm bg-white rounded p-4 -mt-20"
+                              >
+                                <h5 className="text-xl font-medium mb-2">
+                                  Add a new lesson for{" "}
+                                  {selectedDate.toDateString()}
+                                </h5>
+                                <div className="flex flex-col mb-4">
+                                  <span className="font-semibold text-sm mb-2">
+                                    Time:
+                                  </span>
+                                  <input
+                                    type="time"
+                                    name="time"
+                                    id="time"
+                                    className="text-sm font-medium p-2 border rounded"
+                                    required
+                                  />
+                                </div>
+                                <div className="flex flex-col mb-4">
+                                  <span className="font-semibold text-sm mb-2">
+                                    Location:
+                                  </span>
+                                  <input
+                                    type="string"
+                                    name="location"
+                                    id="location"
+                                    className="text-sm font-medium p-2 border rounded"
+                                    required
+                                  />
+                                </div>
+                                <div className="flex flex-col">
+                                  <span className="font-semibold text-sm mb-2">
+                                    Price:
+                                  </span>
+                                  <input
+                                    type="number"
+                                    name="price"
+                                    id="price"
+                                    className="text-sm font-medium p-2 border rounded"
+                                    required
+                                  />
+                                </div>
+                                <p className="text-red-500 text-sm my-4">
+                                  {error}
+                                </p>
+                                <button className="rounded bg-indigo-400 w-full text-white p-2">
+                                  Submit
+                                </button>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                       <div className="grid grid-cols-3 gap-4">
                         {filteredLessons.map((lesson: Lesson) => (
                           <button
