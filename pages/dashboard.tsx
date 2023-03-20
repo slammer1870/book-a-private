@@ -18,15 +18,15 @@ export default function Dashboard() {
 
   const loading = status == "loading";
 
-  const [selectedDate, setSelectedDate] = useState<Date>();
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [lessons, setLessons] = useState([]);
-  const [filteredLessons, setFilteredLessons] = useState([]);
+  const [filteredLessons, setFilteredLessons] = useState<Array<Lesson>>([]);
   const [modal, setModal] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = async (e: React.SyntheticEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const time = e.target.time.value.split(":");
+    const time = e.currentTarget.time.value.split(":");
     const newDate = new Date(
       selectedDate?.getFullYear(),
       selectedDate?.getMonth(),
@@ -39,8 +39,8 @@ export default function Dashboard() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         date: newDate,
-        location: e.target.location.value,
-        price: e.target.price.value,
+        location: e.currentTarget.location.value,
+        price: e.currentTarget.price.value,
       }),
     });
 
