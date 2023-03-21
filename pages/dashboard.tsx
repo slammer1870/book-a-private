@@ -10,7 +10,7 @@ type Lesson = {
   id: String;
   date: Date;
   location: String;
-  price: Number;
+  price: number;
   status: String;
 };
 
