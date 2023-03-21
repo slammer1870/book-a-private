@@ -9,6 +9,9 @@ import React, { useState, useEffect, FormEvent } from "react";
 type Lesson = {
   id: String;
   date: Date;
+  location: String;
+  price: Number;
+  status: String;
 };
 
 export default function Dashboard() {
@@ -18,7 +21,10 @@ export default function Dashboard() {
 
   const loading = status == "loading";
 
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  //get todays date
+  let d = new Date();
+
+  const [selectedDate, setSelectedDate] = useState<Date>(d);
   const [lessons, setLessons] = useState([]);
   const [filteredLessons, setFilteredLessons] = useState<Array<Lesson>>([]);
   const [modal, setModal] = useState(false);
@@ -82,9 +88,6 @@ export default function Dashboard() {
     }
   }, [session, loading]);
 
-  //get todays date
-  let d = new Date();
-
   //set initial state of date object to be the value of todays date
   const [today, setToday] = useState(d);
 
@@ -141,7 +144,7 @@ export default function Dashboard() {
 
   return (
     <Layout>
-      <div className="max-w-screen-md mx-auto px-4 py-20 min-h-screen">
+      <div className="max-w-screen-md mx-auto px-4 pt-20 pb-10 min-h-screen">
         <h1 className="text-3xl font-medium mb-2">Dashboard</h1>
         {loading && <p className="text-gray-700 animate-pulse">Loading...</p>}
         {!loading && session?.user.stripeAccountVerified ? (
@@ -351,15 +354,46 @@ export default function Dashboard() {
                           </div>
                         </div>
                       )}
-                      <div className="grid grid-cols-3 gap-4">
+                      <div className="flex flex-col">
                         {filteredLessons.map((lesson: Lesson) => (
-                          <button
+                          <div
                             key={null}
-                            className={`
-                        col-span-1 cursor-default rounded-md border p-2 text-sm`}
+                            className={`rounded-md border p-4 text-sm flex justify-around mb-4`}
                           >
-                            {new Date(lesson.date).toLocaleTimeString()}
-                          </button>
+                            <div className="grid grid-cols-2 grid-rows-2 gap-4 w-full">
+                              <div className="flex flex-col col-span-1 row-span-1">
+                                <div className="my-auto">
+                                  <p className="font-semibold">Date:</p>
+                                  <span>
+                                    {new Date(lesson.date).toUTCString()}
+                                  </span>
+                                </div>
+                              </div>
+                              <div className="flex flex-col col-span-1 row-span-1">
+                                <div className="my-auto">
+                                  <p className="font-semibold">Location:</p>
+                                  <span>{lesson.location}</span>
+                                </div>
+                              </div>
+                              <div className="flex flex-col col-span-1 row-span-1">
+                                <div className="my-auto">
+                                  <p className="font-semibold">Price:</p>
+                                  <span>€{lesson.price}</span>
+                                </div>
+                              </div>
+                              <div className="flex flex-col col-span-1 row-span-1">
+                                <div className="my-auto">
+                                  <p className="font-semibold">Status:</p>
+                                  <span>{lesson.status}</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="flex items-center">
+                              <button className="bg-indigo-400 text-white px-4 py-2 rounded ml-auto">
+                                Edit
+                              </button>
+                            </div>
+                          </div>
                         ))}
                       </div>
                     </>
