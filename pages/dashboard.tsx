@@ -1,16 +1,17 @@
 import Layout from "@/components/Layout";
+import LessonModal from "@/components/LessonModal";
 import LinkStripe from "@/components/LinkStripe";
 import { User } from "next-auth";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
-import React, { useState, useEffect, FormEvent } from "react";
+import React, { useState, useEffect, FormEvent, use } from "react";
 
 type Lesson = {
-  id: String;
+  id?: String;
   date: Date;
-  location: String;
-  price: number;
+  location?: string;
+  price?: string;
   status: String;
 };
 
@@ -24,51 +25,10 @@ export default function Dashboard() {
   //get todays date
   let d = new Date();
 
-  const [selectedDate, setSelectedDate] = useState<Date>(d);
-  const [lessons, setLessons] = useState([]);
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>();
+  const [lessons, setLessons] = useState<Array<Lesson>>([]);
   const [filteredLessons, setFilteredLessons] = useState<Array<Lesson>>([]);
-  const [modal, setModal] = useState(false);
-  const [error, setError] = useState("");
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const time = e.currentTarget.time.value.split(":");
-    const newDate = new Date(
-      selectedDate?.getFullYear(),
-      selectedDate?.getMonth(),
-      selectedDate?.getDate(),
-      time[0],
-      time[1]
-    );
-    const res = await fetch("/api/bookings/add-lesson", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        date: newDate,
-        location: e.currentTarget.location.value,
-        price: e.currentTarget.price.value,
-      }),
-    });
-
-    const data = await res.json();
-
-    const { error } = data;
-
-    if (res.ok) {
-      setModal(false);
-      setError("");
-      filteredLessons.push(data);
-      setFilteredLessons(
-        filteredLessons.sort(({ date: a }, { date: b }) =>
-          a > b ? 1 : a < b ? -1 : 0
-        )
-      );
-    }
-
-    if (error) {
-      setError(error);
-    }
-  };
+  const [activeLesson, setActiveLesson] = useState<Lesson | undefined>();
 
   useEffect(() => {
     const getLessons = async () => {
@@ -87,6 +47,18 @@ export default function Dashboard() {
       getLessons();
     }
   }, [session, loading]);
+
+  useEffect(() => {
+    if (selectedDate) {
+      const todaysLessons: Lesson[] = lessons
+        .filter(
+          (lesson: Lesson) =>
+            new Date(lesson.date).getDate() == selectedDate.getDate()
+        )
+        .sort(({ date: a }, { date: b }) => (a > b ? 1 : a < b ? -1 : 0));
+      setFilteredLessons(todaysLessons);
+    }
+  }, [activeLesson, selectedDate]);
 
   //set initial state of date object to be the value of todays date
   const [today, setToday] = useState(d);
@@ -225,18 +197,11 @@ export default function Dashboard() {
                   ))}
                   <>
                     {days.map((day: Date) => (
-                      <>
+                      <div key={day.toISOString()}>
                         {day >= d ? (
                           <button
                             onClick={() => {
                               setSelectedDate(day);
-                              setFilteredLessons(
-                                lessons.filter(
-                                  (lesson: Lesson) =>
-                                    new Date(lesson.date).getDate() ==
-                                    day.getDate()
-                                )
-                              );
                             }}
                             className={`${
                               selectedDate &&
@@ -255,7 +220,7 @@ export default function Dashboard() {
                             </p>
                           </div>
                         )}
-                      </>
+                      </div>
                     ))}
                   </>
                 </div>
@@ -282,118 +247,63 @@ export default function Dashboard() {
                   {selectedDate && (
                     <>
                       <button
-                        onClick={() => setModal(true)}
+                        onClick={() =>
+                          setActiveLesson({
+                            date: selectedDate,
+                            location: undefined,
+                            price: undefined,
+                            status: "unbooked",
+                          })
+                        }
                         className="border border-dashed p-4 mb-4 w-full text-center text-gray-700 font-thin text-xl"
                       >
                         + Add a new lesson
                       </button>
-                      {modal && (
-                        <div className="w-screen h-screen inset-0 absolute bg-gray-900 bg-opacity-75 z-10">
-                          <div className="w-full">
-                            <div className="flex container mx-auto p-4">
-                              <span
-                                onClick={() => setModal(false)}
-                                className="text-4xl text-white cursor-pointer ml-auto"
-                              >
-                                X
-                              </span>
-                            </div>
-                            <div className="w-screen h-screen flex items-center justify-center p-4">
-                              <form
-                                onSubmit={(e) => handleSubmit(e)}
-                                className="w-full max-w-screen-sm bg-white rounded p-4 -mt-20"
-                              >
-                                <h5 className="text-xl font-medium mb-2">
-                                  Add a new lesson for{" "}
-                                  {selectedDate.toDateString()}
-                                </h5>
-                                <div className="flex flex-col mb-4">
-                                  <span className="font-semibold text-sm mb-2">
-                                    Time:
-                                  </span>
-                                  <input
-                                    type="time"
-                                    name="time"
-                                    id="time"
-                                    className="text-sm font-medium p-2 border rounded"
-                                    required
-                                  />
-                                </div>
-                                <div className="flex flex-col mb-4">
-                                  <span className="font-semibold text-sm mb-2">
-                                    Location:
-                                  </span>
-                                  <input
-                                    type="string"
-                                    name="location"
-                                    id="location"
-                                    className="text-sm font-medium p-2 border rounded"
-                                    required
-                                  />
-                                </div>
-                                <div className="flex flex-col">
-                                  <span className="font-semibold text-sm mb-2">
-                                    Price:
-                                  </span>
-                                  <input
-                                    type="number"
-                                    name="price"
-                                    id="price"
-                                    className="text-sm font-medium p-2 border rounded"
-                                    required
-                                  />
-                                </div>
-                                <p className="text-red-500 text-sm my-4">
-                                  {error}
-                                </p>
-                                <button className="rounded bg-indigo-400 w-full text-white p-2">
-                                  Submit
-                                </button>
-                              </form>
-                            </div>
-                          </div>
-                        </div>
-                      )}
                       <div className="flex flex-col">
                         {filteredLessons.map((lesson: Lesson) => (
-                          <div
-                            key={null}
-                            className={`rounded-md border p-4 text-sm flex justify-around mb-4`}
-                          >
-                            <div className="grid grid-cols-2 grid-rows-2 gap-4 w-full">
-                              <div className="flex flex-col col-span-1 row-span-1">
-                                <div className="my-auto">
-                                  <p className="font-semibold">Date:</p>
-                                  <span>
-                                    {new Date(lesson.date).toUTCString()}
-                                  </span>
+                          <>
+                            <div
+                              key={new Date(lesson.date).toISOString()}
+                              className={`rounded-md border p-4 text-sm flex justify-around mb-4`}
+                            >
+                              <div className="grid grid-cols-2 grid-rows-2 gap-4 w-full">
+                                <div className="flex flex-col col-span-1 row-span-1">
+                                  <div className="my-auto">
+                                    <p className="font-semibold">Date:</p>
+                                    <span>
+                                      {new Date(lesson.date).toLocaleString()}
+                                    </span>
+                                  </div>
+                                </div>
+                                <div className="flex flex-col col-span-1 row-span-1">
+                                  <div className="my-auto">
+                                    <p className="font-semibold">Location:</p>
+                                    <span>{lesson.location}</span>
+                                  </div>
+                                </div>
+                                <div className="flex flex-col col-span-1 row-span-1">
+                                  <div className="my-auto">
+                                    <p className="font-semibold">Price:</p>
+                                    <span>€{lesson.price}</span>
+                                  </div>
+                                </div>
+                                <div className="flex flex-col col-span-1 row-span-1">
+                                  <div className="my-auto">
+                                    <p className="font-semibold">Status:</p>
+                                    <span>{lesson.status}</span>
+                                  </div>
                                 </div>
                               </div>
-                              <div className="flex flex-col col-span-1 row-span-1">
-                                <div className="my-auto">
-                                  <p className="font-semibold">Location:</p>
-                                  <span>{lesson.location}</span>
-                                </div>
-                              </div>
-                              <div className="flex flex-col col-span-1 row-span-1">
-                                <div className="my-auto">
-                                  <p className="font-semibold">Price:</p>
-                                  <span>€{lesson.price}</span>
-                                </div>
-                              </div>
-                              <div className="flex flex-col col-span-1 row-span-1">
-                                <div className="my-auto">
-                                  <p className="font-semibold">Status:</p>
-                                  <span>{lesson.status}</span>
-                                </div>
+                              <div className="flex items-center">
+                                <button
+                                  onClick={() => setActiveLesson(lesson)}
+                                  className="bg-indigo-400 text-white px-4 py-2 rounded ml-auto"
+                                >
+                                  Edit
+                                </button>
                               </div>
                             </div>
-                            <div className="flex items-center">
-                              <button className="bg-indigo-400 text-white px-4 py-2 rounded ml-auto">
-                                Edit
-                              </button>
-                            </div>
-                          </div>
+                          </>
                         ))}
                       </div>
                     </>
@@ -401,6 +311,14 @@ export default function Dashboard() {
                 </div>
               </div>
             </div>
+            {activeLesson && (
+              <LessonModal
+                lesson={activeLesson}
+                setActiveLesson={setActiveLesson}
+                lessons={lessons}
+                setLessons={setLessons}
+              />
+            )}
           </>
         ) : (
           <LinkStripe />

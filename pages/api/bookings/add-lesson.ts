@@ -17,10 +17,18 @@ export default async function handler(
     const session = await getServerSession(req, res, authOptions);
 
     if (session) {
-      const { date, location, price } = req.body;
+      const { id, date, location, price } = req.body;
       try {
-        const lesson = await prisma.lesson.create({
-          data: {
+        const lesson = await prisma.lesson.upsert({
+          where: {
+            id: id,
+          },
+          update: {
+            date: date,
+            location: location,
+            price: Number(price),
+          },
+          create: {
             date: date,
             location: location,
             price: Number(price),
@@ -37,6 +45,7 @@ export default async function handler(
             });
           }
         } else {
+          console.log(error);
           res.status(401).send({
             error: "Something went wrong.",
           });
