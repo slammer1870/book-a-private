@@ -7,13 +7,7 @@ import { useRouter } from "next/router";
 
 import React, { useState, useEffect, FormEvent, use } from "react";
 
-type Lesson = {
-  id?: String;
-  date: Date;
-  location?: string;
-  price?: string;
-  status: String;
-};
+import Lesson from "@/interfaces/lesson";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -294,12 +288,18 @@ export default function Dashboard() {
                                   </div>
                                 </div>
                               </div>
-                              <div className="flex items-center">
+                              <div className="grid col-span-1 gap-1 grid-rows-2">
                                 <button
                                   onClick={() => setActiveLesson(lesson)}
-                                  className="bg-indigo-400 text-white px-4 py-2 rounded ml-auto"
+                                  className="bg-indigo-400 w-full col-span-1 h-min text-white px-4 py-2 my-auto rounded ml-auto"
                                 >
                                   Edit
+                                </button>
+                                <button
+                                  onClick={() => setActiveLesson(undefined)}
+                                  className="bg-red-400 col-span-1 w-full text-white h-min my-auto px-4 py-2 rounded ml-auto"
+                                >
+                                  Delete
                                 </button>
                               </div>
                             </div>

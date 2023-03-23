@@ -1,13 +1,7 @@
 import { Dispatch, useState } from "react";
 import cuid from "cuid";
 
-type Lesson = {
-  id?: String;
-  date: Date;
-  location?: string;
-  price?: string;
-  status: String;
-};
+import Lesson from "@/interfaces/lesson";
 
 type LessonProps = {
   lesson: Lesson;
@@ -24,19 +18,21 @@ const LessonModal = ({
 }: LessonProps) => {
   const { id, date, location, price } = lesson;
 
+  const formatTime = (date: Date) => {
+    return `${
+      String(date.getHours()).length < 2
+        ? `0${date.getHours()}`
+        : `${date.getHours()}`
+    }:${
+      String(date.getMinutes()).length < 2
+        ? `0${date.getMinutes()}`
+        : `${date.getMinutes()}`
+    }`;
+  };
+
   const [error, setError] = useState<String>();
   const [dateValue, setDateValue] = useState<Date>(new Date(date));
-  const [timeValue, setTimeValue] = useState<string>(
-    `${
-      String(dateValue.getHours()).length < 2
-        ? `0${dateValue.getHours()}`
-        : `${dateValue.getHours()}`
-    }:${
-      String(dateValue.getMinutes()).length < 2
-        ? `0${dateValue.getMinutes()}`
-        : `${dateValue.getMinutes()}`
-    }`
-  );
+  const [timeValue, setTimeValue] = useState<string>(formatTime(dateValue));
   const [locationValue, setLocationValue] =
     useState<string | undefined>(location);
   const [priceValue, setPriceValue] = useState<string | undefined>(price);
@@ -131,7 +127,12 @@ const LessonModal = ({
                 id="price"
                 className="text-sm font-medium p-2 border rounded"
                 value={priceValue}
-                onChange={(e) => setPriceValue(e.currentTarget.value)}
+                onChange={
+                  lesson.status == "unbooked"
+                    ? (e) => setPriceValue(e.currentTarget.value)
+                    : () =>
+                        setError("Prices of booked lessons cannot be changed")
+                }
                 required
               />
             </div>
