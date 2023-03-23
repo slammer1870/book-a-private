@@ -104,6 +104,22 @@ export default function Dashboard() {
     }
   };
 
+  const handleDelete = async (date: Date) => {
+    if (confirm("Are you sure you want to delete this?")) {
+      const res = await fetch("/api/bookings/delete-lesson", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ date: date }),
+      });
+
+      if (res.ok) {
+        setFilteredLessons(
+          filteredLessons.filter((lesson) => lesson.date != date)
+        );
+      }
+    }
+  };
+
   if (!loading && !session) {
     return router.push("/signin");
   }
@@ -296,7 +312,7 @@ export default function Dashboard() {
                                   Edit
                                 </button>
                                 <button
-                                  onClick={() => setActiveLesson(undefined)}
+                                  onClick={() => handleDelete(lesson.date)}
                                   className="bg-red-400 col-span-1 w-full text-white h-min my-auto px-4 py-2 rounded ml-auto"
                                 >
                                   Delete
