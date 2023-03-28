@@ -59,7 +59,7 @@ export default function Dashboard() {
   const [today, setToday] = useState(d);
 
   //array of strings that represent month names
-  const months = [
+  const months: String[] = [
     "January",
     "February",
     "March",
@@ -75,7 +75,7 @@ export default function Dashboard() {
   ];
 
   //setting the initial state of the month string
-  const [month, setMonth] = useState("");
+  const [month, setMonth] = useState<String>();
 
   //calculating the number of days in a month given the month and year
   const getDays = (month: number, year: number) => {
@@ -162,7 +162,10 @@ export default function Dashboard() {
                 </h3>
                 <div className="flex flex-col">
                   {upcomingBookings.map((lesson: Lesson) => (
-                    <div className="border rounded p-4 mb-4">
+                    <div
+                      key={new Date(lesson.date).toUTCString()}
+                      className="border rounded p-4 mb-4"
+                    >
                       <div className="grid grid-cols-2 grid-rows-2 gap-4 w-full">
                         <div className="flex flex-col col-span-1 row-span-1">
                           <div className="my-auto">
