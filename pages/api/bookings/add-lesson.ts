@@ -17,16 +17,21 @@ export default async function handler(
     const session = await getServerSession(req, res, authOptions);
 
     if (session) {
-      const { id, date, location, price } = req.body;
+      const { id, date, location, price, available } = req.body;
+
       try {
         const lesson = await prisma.lesson.upsert({
           where: {
-            id: id,
+            userId_date: {
+              userId: session.user.id as string,
+              date: date,
+            },
           },
           update: {
             date: date,
             location: location,
-            price: Number(price),
+            price: Number(price) || undefined,
+            available: true,
           },
           create: {
             date: date,

@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import React, { useState, useEffect, FormEvent, use } from "react";
 
 import Lesson from "@/interfaces/lesson";
+import Booking from "@/interfaces/booking";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -52,7 +53,7 @@ export default function Dashboard() {
         .sort(({ date: a }, { date: b }) => (a > b ? 1 : a < b ? -1 : 0));
       setFilteredLessons(todaysLessons);
     }
-  }, [activeLesson, selectedDate]);
+  }, [activeLesson, selectedDate, lessons]);
 
   //set initial state of date object to be the value of todays date
   const [today, setToday] = useState(d);
@@ -104,18 +105,40 @@ export default function Dashboard() {
     }
   };
 
-  const handleDelete = async (date: Date) => {
+  // filter for lessons with active bookings
+  const filterBookings = (lessons: Lesson[]) => {
+    return lessons.filter((lesson: Lesson) =>
+      lesson.bookings?.some((booking: Booking) => booking.status == "active")
+    );
+  };
+
+  // filter for booking that is active
+  const activeBooking = (lesson: Lesson) => {
+    return lesson.bookings.find(
+      (booking) => booking.status == "active"
+    ) as Booking;
+  };
+
+  const upcomingBookings: Lesson[] = filterBookings(lessons);
+
+  const handleDelete = async (lesson: Lesson) => {
     if (confirm("Are you sure you want to delete this?")) {
       const res = await fetch("/api/bookings/delete-lesson", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ date: date }),
+        body: JSON.stringify({
+          id: lesson.id,
+          date: lesson.date,
+          location: lesson.location,
+          price: lesson.price,
+          available: false,
+        }),
       });
 
+      const data = await res.json();
+
       if (res.ok) {
-        setFilteredLessons(
-          filteredLessons.filter((lesson) => lesson.date != date)
-        );
+        setLessons(lessons.filter((lesson) => lesson.date != data.date));
       }
     }
   };
@@ -132,9 +155,57 @@ export default function Dashboard() {
         {!loading && session?.user.stripeAccountVerified ? (
           <>
             <p className="text-gray-700 mb-4">Welcome to your dashboard</p>
+            {upcomingBookings.length >= 1 && (
+              <div>
+                <h3 className="text-2xl font-semibold mb-4">
+                  Your upcoming bookings
+                </h3>
+                <div className="flex flex-col">
+                  {upcomingBookings.map((lesson: Lesson) => (
+                    <div className="border rounded p-4 mb-4">
+                      <div className="grid grid-cols-2 grid-rows-2 gap-4 w-full">
+                        <div className="flex flex-col col-span-1 row-span-1">
+                          <div className="my-auto">
+                            <p className="font-semibold">Date:</p>
+                            <span>
+                              {new Date(lesson.date).toLocaleString()}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="flex flex-col col-span-1 row-span-1">
+                          <div className="my-auto">
+                            <p className="font-semibold">Location:</p>
+                            <span>{lesson.location}</span>
+                          </div>
+                        </div>
+                        <div className="flex flex-col col-span-1 row-span-1">
+                          <div className="my-auto">
+                            <p className="font-semibold">Attendee Name:</p>
+                            <span>{activeBooking(lesson).name}</span>
+                          </div>
+                        </div>
+                        <div className="flex flex-col col-span-1 row-span-1">
+                          <div className="my-auto">
+                            <p className="font-semibold">Attendee Email:</p>
+                            <span>{activeBooking(lesson).email}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  {upcomingBookings.length > 3 && (
+                    <div className="my-4 flex">
+                      <p className="underline ml-auto">
+                        See all upcoming bookings
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
             <div>
               <h3 className="text-2xl font-semibold mb-4">
-                Manage your Bookings
+                Manage your Availability
               </h3>
               <div className="mb-4">
                 <div className="item-center mb-4 flex justify-center bg-gray-200 p-2 text-center">
@@ -262,7 +333,9 @@ export default function Dashboard() {
                             date: selectedDate,
                             location: undefined,
                             price: undefined,
-                            status: "unbooked",
+                            booked: false,
+                            available: true,
+                            bookings: [],
                           })
                         }
                         className="border border-dashed p-4 mb-4 w-full text-center text-gray-700 font-thin text-xl"
@@ -300,23 +373,35 @@ export default function Dashboard() {
                                 <div className="flex flex-col col-span-1 row-span-1">
                                   <div className="my-auto">
                                     <p className="font-semibold">Status:</p>
-                                    <span>{lesson.status}</span>
+                                    {lesson.booked ? (
+                                      <p>booked</p>
+                                    ) : (
+                                      <p>unbooked</p>
+                                    )}
                                   </div>
                                 </div>
                               </div>
                               <div className="grid col-span-1 gap-1 grid-rows-2">
-                                <button
-                                  onClick={() => setActiveLesson(lesson)}
-                                  className="bg-indigo-400 w-full col-span-1 h-min text-white px-4 py-2 my-auto rounded ml-auto"
-                                >
-                                  Edit
-                                </button>
-                                <button
-                                  onClick={() => handleDelete(lesson.date)}
-                                  className="bg-red-400 col-span-1 w-full text-white h-min my-auto px-4 py-2 rounded ml-auto"
-                                >
-                                  Delete
-                                </button>
+                                {lesson.booked ? (
+                                  <button className="bg-green-400 col-span-1 row-span-2 w-full text-white h-min my-auto px-4 py-2 rounded ml-auto">
+                                    Manage this Booking
+                                  </button>
+                                ) : (
+                                  <>
+                                    <button
+                                      onClick={() => setActiveLesson(lesson)}
+                                      className="bg-indigo-400 w-full col-span-1 h-min text-white px-4 py-2 my-auto rounded ml-auto"
+                                    >
+                                      Edit
+                                    </button>
+                                    <button
+                                      onClick={() => handleDelete(lesson)}
+                                      className="bg-red-400 col-span-1 w-full text-white h-min my-auto px-4 py-2 rounded ml-auto"
+                                    >
+                                      Delete
+                                    </button>
+                                  </>
+                                )}
                               </div>
                             </div>
                           </>

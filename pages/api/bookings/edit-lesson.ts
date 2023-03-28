@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { Prisma } from "@prisma/client";
 
 import prisma from "../../../lib/prisma";
 
@@ -16,25 +17,34 @@ export default async function handler(
     const session = await getServerSession(req, res, authOptions);
 
     if (session) {
-      const { date } = req.body;
+      const { id, date, location, price } = req.body;
+
       try {
         const lesson = await prisma.lesson.update({
           where: {
-            userId_date: {
-              userId: session.user.id as string,
-              date: date,
-            },
+            id: id,
           },
           data: {
-            available: false,
+            date: date,
+            location: location,
+            price: Number(price) || undefined,
           },
         });
         return res.json(lesson);
       } catch (error) {
-        console.log(error);
-        res.status(401).send({
-          error: "Something went wrong.",
-        });
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+          // The .code property can be accessed in a type-safe manner
+          if (error.code === "P2002") {
+            res.status(401).send({
+              error: "Lesson at this date and time already exists",
+            });
+          }
+        } else {
+          console.log(error);
+          res.status(401).send({
+            error: "Something went wrong.",
+          });
+        }
       }
     } else {
       res.status(401).send({ message: "Unauthorized" });
