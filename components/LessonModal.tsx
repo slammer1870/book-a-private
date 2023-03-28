@@ -48,7 +48,11 @@ const LessonModal = ({
       time[1]
     );
 
-    const res = await fetch("/api/bookings/add-lesson", {
+    const url = lesson.id
+      ? "/api/bookings/edit-lesson"
+      : "/api/bookings/add-lesson";
+
+    const res = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -128,10 +132,10 @@ const LessonModal = ({
                 className="text-sm font-medium p-2 border rounded"
                 value={priceValue}
                 onChange={
-                  lesson.status == "unbooked"
-                    ? (e) => setPriceValue(e.currentTarget.value)
-                    : () =>
+                  lesson.booked
+                    ? () =>
                         setError("Prices of booked lessons cannot be changed")
+                    : (e) => setPriceValue(e.currentTarget.value)
                 }
                 required
               />

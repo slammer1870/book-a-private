@@ -19,6 +19,13 @@ export default async function handler(
         date: {
           gt: new Date(Date.now()),
         },
+        available: true,
+      },
+      include: {
+        bookings: true,
+      },
+      orderBy: {
+        date: "asc",
       },
     });
 
