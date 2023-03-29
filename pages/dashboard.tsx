@@ -1,5 +1,6 @@
 import Layout from "@/components/Layout";
 import LessonModal from "@/components/LessonModal";
+import BookingModal from "@/components/BookingModal";
 import LinkStripe from "@/components/LinkStripe";
 import { User } from "next-auth";
 import { useSession } from "next-auth/react";
@@ -9,6 +10,7 @@ import React, { useState, useEffect, FormEvent, use } from "react";
 
 import Lesson from "@/interfaces/lesson";
 import Booking from "@/interfaces/booking";
+import Link from "next/link";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -24,6 +26,7 @@ export default function Dashboard() {
   const [lessons, setLessons] = useState<Array<Lesson>>([]);
   const [filteredLessons, setFilteredLessons] = useState<Array<Lesson>>([]);
   const [activeLesson, setActiveLesson] = useState<Lesson | undefined>();
+  const [booking, setBooking] = useState<Lesson | undefined>();
 
   useEffect(() => {
     const getLessons = async () => {
@@ -107,14 +110,20 @@ export default function Dashboard() {
 
   // filter for lessons with active bookings
   const filterBookings = (lessons: Lesson[]) => {
-    return lessons.filter((lesson: Lesson) =>
-      lesson.bookings?.some((booking: Booking) => booking.status == "active")
+    return lessons.filter(
+      (lesson: Lesson) =>
+        hasActiveBooking(lesson) &&
+        lesson.bookings?.map((booking: Booking) => booking.status == "active")
     );
+  };
+
+  const hasActiveBooking = (lesson: Lesson) => {
+    return lesson.bookings?.some((booking) => booking.status == "active");
   };
 
   // filter for booking that is active
   const activeBooking = (lesson: Lesson) => {
-    return lesson.bookings.find(
+    return lesson.bookings?.find(
       (booking) => booking.status == "active"
     ) as Booking;
   };
@@ -154,9 +163,18 @@ export default function Dashboard() {
         {loading && <p className="text-gray-700 animate-pulse">Loading...</p>}
         {!loading && session?.user.stripeAccountVerified ? (
           <>
-            <p className="text-gray-700 mb-4">Welcome to your dashboard</p>
+            <div className="mb-4">
+              <p className="text-gray-700 mb-2">
+                Welcome to your dashboard, your public profile url is:
+              </p>
+              <Link href={`/${session.user.username}`}>
+                <span className="text-gray-800 mb-2 underline">
+                  {process.env.NEXT_PUBLIC_VERCEL_URL}/{session.user.username}
+                </span>
+              </Link>
+            </div>
             {upcomingBookings.length >= 1 && (
-              <div>
+              <div className="mb-4">
                 <h3 className="text-2xl font-semibold mb-4">
                   Your upcoming bookings
                 </h3>
@@ -164,7 +182,7 @@ export default function Dashboard() {
                   {upcomingBookings.map((lesson: Lesson) => (
                     <div
                       key={new Date(lesson.date).toUTCString()}
-                      className="border rounded p-4 mb-4"
+                      className="border rounded-md p-4 mb-4 text-sm flex justify-around"
                     >
                       <div className="grid grid-cols-2 grid-rows-2 gap-4 w-full">
                         <div className="flex flex-col col-span-1 row-span-1">
@@ -193,6 +211,14 @@ export default function Dashboard() {
                             <span>{activeBooking(lesson).email}</span>
                           </div>
                         </div>
+                      </div>
+                      <div className="grid col-span-1 gap-1 grid-rows-2 w-24 md:w-40">
+                        <button
+                          onClick={() => setBooking(lesson)}
+                          className="bg-green-400 col-span-1 row-span-2 w-full text-white h-min my-auto px-4 py-2 rounded ml-auto"
+                        >
+                          Manage this Booking
+                        </button>
                       </div>
                     </div>
                   ))}
@@ -350,9 +376,9 @@ export default function Dashboard() {
                           <>
                             <div
                               key={new Date(lesson.date).toISOString()}
-                              className={`rounded-md border p-4 text-sm flex justify-around mb-4`}
+                              className={`rounded-md border p-4 text-sm flex justify-between mb-4`}
                             >
-                              <div className="grid grid-cols-2 grid-rows-2 gap-4 w-full">
+                              <div className="grid grid-cols-2 grid-rows-2 gap-4 w-2/3">
                                 <div className="flex flex-col col-span-1 row-span-1">
                                   <div className="my-auto">
                                     <p className="font-semibold">Date:</p>
@@ -376,7 +402,7 @@ export default function Dashboard() {
                                 <div className="flex flex-col col-span-1 row-span-1">
                                   <div className="my-auto">
                                     <p className="font-semibold">Status:</p>
-                                    {lesson.booked ? (
+                                    {hasActiveBooking(lesson) ? (
                                       <p>booked</p>
                                     ) : (
                                       <p>unbooked</p>
@@ -384,9 +410,12 @@ export default function Dashboard() {
                                   </div>
                                 </div>
                               </div>
-                              <div className="grid col-span-1 gap-1 grid-rows-2">
-                                {lesson.booked ? (
-                                  <button className="bg-green-400 col-span-1 row-span-2 w-full text-white h-min my-auto px-4 py-2 rounded ml-auto">
+                              <div className="grid col-span-1 gap-1 grid-rows-2 w-24 md:w-40">
+                                {hasActiveBooking(lesson) ? (
+                                  <button
+                                    onClick={() => setBooking(lesson)}
+                                    className="bg-green-400 col-span-1 row-span-2 w-full text-white h-min my-auto px-4 py-2 rounded ml-auto"
+                                  >
                                     Manage this Booking
                                   </button>
                                 ) : (
@@ -419,6 +448,14 @@ export default function Dashboard() {
               <LessonModal
                 lesson={activeLesson}
                 setActiveLesson={setActiveLesson}
+                lessons={lessons}
+                setLessons={setLessons}
+              />
+            )}
+            {booking && (
+              <BookingModal
+                lesson={booking}
+                setActiveLesson={setBooking}
                 lessons={lessons}
                 setLessons={setLessons}
               />
