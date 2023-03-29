@@ -11,6 +11,7 @@ import React, { useState, useEffect, FormEvent, use } from "react";
 import Lesson from "@/interfaces/lesson";
 import Booking from "@/interfaces/booking";
 import Link from "next/link";
+import BookingCreateModal from "@/components/BookingCreateModal";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -27,6 +28,7 @@ export default function Dashboard() {
   const [filteredLessons, setFilteredLessons] = useState<Array<Lesson>>([]);
   const [activeLesson, setActiveLesson] = useState<Lesson | undefined>();
   const [booking, setBooking] = useState<Lesson | undefined>();
+  const [bookingForm, setBookingForm] = useState<Lesson | undefined>();
 
   useEffect(() => {
     const getLessons = async () => {
@@ -421,6 +423,12 @@ export default function Dashboard() {
                                 ) : (
                                   <>
                                     <button
+                                      onClick={() => setBookingForm(lesson)}
+                                      className="bg-green-400 w-full col-span-1 h-min text-white px-4 py-2 my-auto rounded ml-auto"
+                                    >
+                                      Create a booking
+                                    </button>
+                                    <button
                                       onClick={() => setActiveLesson(lesson)}
                                       className="bg-indigo-400 w-full col-span-1 h-min text-white px-4 py-2 my-auto rounded ml-auto"
                                     >
@@ -456,6 +464,14 @@ export default function Dashboard() {
               <BookingModal
                 lesson={booking}
                 setActiveLesson={setBooking}
+                lessons={lessons}
+                setLessons={setLessons}
+              />
+            )}
+            {bookingForm && (
+              <BookingCreateModal
+                lesson={bookingForm}
+                setActiveLesson={setBookingForm}
                 lessons={lessons}
                 setLessons={setLessons}
               />

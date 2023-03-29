@@ -5,7 +5,7 @@ type Booking = {
   lessonId: String;
   lesson: Lesson;
   status: String;
-  stripePaymentIntent: String;
+  stripePaymentIntent?: String;
   createdAt: Date;
   updatedAt: Date;
   name: String;

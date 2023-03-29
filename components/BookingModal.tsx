@@ -11,7 +11,7 @@ type LessonProps = {
   setLessons: React.Dispatch<React.SetStateAction<Lesson[]>>;
 };
 
-const LessonModal = ({
+const BookingModal = ({
   lesson,
   setActiveLesson,
   lessons,
@@ -25,46 +25,49 @@ const LessonModal = ({
 
   const [error, setError] = useState<String>();
 
-  const handleSubmit = async (lesson: Lesson) => {
-    const url = booking.stripePaymentIntent
-      ? "/api/bookings/refund-booking"
-      : "/api/bookings/cancel-booking";
+  const handleSubmit = async (lesson: Lesson, action: String) => {
+    if (confirm(`Are you sure you want to ${action} this?`)) {
+      const url =
+        action == "refund"
+          ? "/api/bookings/refund-booking"
+          : "/api/bookings/cancel-booking";
 
-    const status = booking.stripePaymentIntent ? "refunded" : "cancelled";
+      const status = action == "refund" ? "refunded" : "cancelled";
 
-    const res = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        id: booking.id,
-        status: status,
-        paymentIntent: booking.stripePaymentIntent,
-      }),
-    });
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: booking.id,
+          status: status,
+          paymentIntent: booking.stripePaymentIntent,
+        }),
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    const { error } = data;
+      const { error } = data;
 
-    if (res.ok) {
-      setActiveLesson(undefined);
+      if (res.ok) {
+        setActiveLesson(undefined);
 
-      const index = lessons.findIndex((lesson) =>
-        lesson.bookings.some((lb) => lb.id == booking.id)
-      );
+        const index = lessons.findIndex((lesson) =>
+          lesson.bookings.some((lb) => lb.id == booking.id)
+        );
 
-      const bookingIndex = lessons[index].bookings.findIndex(
-        (lb) => lb.id == booking.id
-      );
+        const bookingIndex = lessons[index].bookings.findIndex(
+          (lb) => lb.id == booking.id
+        );
 
-      lessons[index].bookings[bookingIndex].status = status;
+        lessons[index].bookings[bookingIndex].status = status;
 
-      setLessons(lessons);
-      setError("");
-    }
+        setLessons(lessons);
+        setError("");
+      }
 
-    if (error) {
-      setError(error);
+      if (error) {
+        setError(error);
+      }
     }
   };
 
@@ -108,11 +111,19 @@ const LessonModal = ({
             </div>
             <p className="text-red-500 text-sm my-4">{error}</p>
             <button
-              onClick={() => handleSubmit(lesson)}
-              className="rounded bg-red-400 w-full text-white p-2"
+              onClick={() => handleSubmit(lesson, "cancel")}
+              className="rounded bg-indigo-400 w-full text-white p-2 mb-4"
             >
-              {booking.stripePaymentIntent ? "Refund" : "Cancel"}
+              Cancel
             </button>
+            {booking.stripePaymentIntent && (
+              <button
+                onClick={() => handleSubmit(lesson, "refund")}
+                className="rounded bg-red-400 w-full text-white p-2 mb-4"
+              >
+                Refund
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -120,4 +131,4 @@ const LessonModal = ({
   );
 };
 
-export default LessonModal;
+export default BookingModal;
