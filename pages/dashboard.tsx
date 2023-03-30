@@ -226,9 +226,9 @@ export default function Dashboard() {
                   ))}
                   {upcomingBookings.length > 3 && (
                     <div className="my-4 flex">
-                      <p className="underline ml-auto">
-                        See all upcoming bookings
-                      </p>
+                      <Link href="/bookings" className="underline ml-auto">
+                        See all upcoming bookings &rarr;
+                      </Link>
                     </div>
                   )}
                 </div>
@@ -430,7 +430,7 @@ export default function Dashboard() {
                                     </button>
                                     <button
                                       onClick={() => setActiveLesson(lesson)}
-                                      className="bg-indigo-400 w-full col-span-1 h-min text-white px-4 py-2 my-auto rounded ml-auto"
+                                      className="bg-indigo-400 w-full col-span-1 h-min text-white px-4 py-2 my-auto md:mb-2 md:mt-1 rounded ml-auto"
                                     >
                                       Edit
                                     </button>
@@ -449,6 +449,19 @@ export default function Dashboard() {
                       </div>
                     </>
                   )}
+                </div>
+                <div className="mb-4">
+                  <h3 className="text-2xl font-semibold mb-4">
+                    Manange all bookings
+                  </h3>
+                  <div className="flex items-start justify-start">
+                    <p className="text-gray-700 mb-2">
+                      To manage all of your bookings:{" "}
+                    </p>
+                    <Link href="/bookings/manage" className="underline ml-2">
+                      follow this link &rarr;
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
