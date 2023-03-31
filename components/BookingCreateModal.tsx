@@ -51,6 +51,7 @@ const BookingCreateModal = ({
       lessons[index].bookings.push(data);
 
       setLessons(lessons);
+      window.location.reload();
       setError("");
     }
 

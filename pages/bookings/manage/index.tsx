@@ -26,7 +26,7 @@ export default function Bookings(props: Props) {
 
   const isAvailable = (booking: Booking) => {
     if (new Date(booking.lesson.date) > d && booking.status == "active") {
-      true;
+      return true;
     } else {
       return false;
     }

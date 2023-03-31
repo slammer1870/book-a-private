@@ -375,78 +375,84 @@ export default function Dashboard() {
                         + Add a new lesson
                       </button>
                       <div className="flex flex-col">
-                        {filteredLessons.map((lesson: Lesson) => (
-                          <>
-                            <div
-                              key={new Date(lesson.date).toISOString()}
-                              className={`rounded-md border p-4 text-sm flex justify-between mb-4`}
-                            >
-                              <div className="grid grid-cols-2 grid-rows-2 gap-4 w-2/3">
-                                <div className="flex flex-col col-span-1 row-span-1">
-                                  <div className="my-auto">
-                                    <p className="font-semibold">Date:</p>
-                                    <span>
-                                      {new Date(lesson.date).toLocaleString()}
-                                    </span>
+                        {lessons
+                          .filter(
+                            (lesson) =>
+                              new Date(lesson.date).toDateString() ==
+                              selectedDate.toDateString()
+                          )
+                          ?.map((lesson: Lesson) => (
+                            <>
+                              <div
+                                key={new Date(lesson.date).toISOString()}
+                                className={`rounded-md border p-4 text-sm flex justify-between mb-4`}
+                              >
+                                <div className="grid grid-cols-2 grid-rows-2 gap-4 w-2/3">
+                                  <div className="flex flex-col col-span-1 row-span-1">
+                                    <div className="my-auto">
+                                      <p className="font-semibold">Date:</p>
+                                      <span>
+                                        {new Date(lesson.date).toLocaleString()}
+                                      </span>
+                                    </div>
+                                  </div>
+                                  <div className="flex flex-col col-span-1 row-span-1">
+                                    <div className="my-auto">
+                                      <p className="font-semibold">Location:</p>
+                                      <span>{lesson.location}</span>
+                                    </div>
+                                  </div>
+                                  <div className="flex flex-col col-span-1 row-span-1">
+                                    <div className="my-auto">
+                                      <p className="font-semibold">Price:</p>
+                                      <span>€{lesson.price}</span>
+                                    </div>
+                                  </div>
+                                  <div className="flex flex-col col-span-1 row-span-1">
+                                    <div className="my-auto">
+                                      <p className="font-semibold">Status:</p>
+                                      {hasActiveBooking(lesson) ? (
+                                        <p>booked</p>
+                                      ) : (
+                                        <p>unbooked</p>
+                                      )}
+                                    </div>
                                   </div>
                                 </div>
-                                <div className="flex flex-col col-span-1 row-span-1">
-                                  <div className="my-auto">
-                                    <p className="font-semibold">Location:</p>
-                                    <span>{lesson.location}</span>
-                                  </div>
-                                </div>
-                                <div className="flex flex-col col-span-1 row-span-1">
-                                  <div className="my-auto">
-                                    <p className="font-semibold">Price:</p>
-                                    <span>€{lesson.price}</span>
-                                  </div>
-                                </div>
-                                <div className="flex flex-col col-span-1 row-span-1">
-                                  <div className="my-auto">
-                                    <p className="font-semibold">Status:</p>
-                                    {hasActiveBooking(lesson) ? (
-                                      <p>booked</p>
-                                    ) : (
-                                      <p>unbooked</p>
-                                    )}
-                                  </div>
+                                <div className="grid col-span-1 gap-1 grid-rows-2 w-24 md:w-40">
+                                  {hasActiveBooking(lesson) ? (
+                                    <button
+                                      onClick={() => setBooking(lesson)}
+                                      className="bg-green-400 col-span-1 row-span-2 w-full text-white h-min my-auto px-4 py-2 rounded ml-auto"
+                                    >
+                                      Manage this Booking
+                                    </button>
+                                  ) : (
+                                    <>
+                                      <button
+                                        onClick={() => setBookingForm(lesson)}
+                                        className="bg-green-400 w-full col-span-1 h-min text-white px-4 py-2 my-auto rounded ml-auto"
+                                      >
+                                        Create a booking
+                                      </button>
+                                      <button
+                                        onClick={() => setActiveLesson(lesson)}
+                                        className="bg-indigo-400 w-full col-span-1 h-min text-white px-4 py-2 my-auto md:mb-2 md:mt-1 rounded ml-auto"
+                                      >
+                                        Edit
+                                      </button>
+                                      <button
+                                        onClick={() => handleDelete(lesson)}
+                                        className="bg-red-400 col-span-1 w-full text-white h-min my-auto px-4 py-2 rounded ml-auto"
+                                      >
+                                        Delete
+                                      </button>
+                                    </>
+                                  )}
                                 </div>
                               </div>
-                              <div className="grid col-span-1 gap-1 grid-rows-2 w-24 md:w-40">
-                                {hasActiveBooking(lesson) ? (
-                                  <button
-                                    onClick={() => setBooking(lesson)}
-                                    className="bg-green-400 col-span-1 row-span-2 w-full text-white h-min my-auto px-4 py-2 rounded ml-auto"
-                                  >
-                                    Manage this Booking
-                                  </button>
-                                ) : (
-                                  <>
-                                    <button
-                                      onClick={() => setBookingForm(lesson)}
-                                      className="bg-green-400 w-full col-span-1 h-min text-white px-4 py-2 my-auto rounded ml-auto"
-                                    >
-                                      Create a booking
-                                    </button>
-                                    <button
-                                      onClick={() => setActiveLesson(lesson)}
-                                      className="bg-indigo-400 w-full col-span-1 h-min text-white px-4 py-2 my-auto md:mb-2 md:mt-1 rounded ml-auto"
-                                    >
-                                      Edit
-                                    </button>
-                                    <button
-                                      onClick={() => handleDelete(lesson)}
-                                      className="bg-red-400 col-span-1 w-full text-white h-min my-auto px-4 py-2 rounded ml-auto"
-                                    >
-                                      Delete
-                                    </button>
-                                  </>
-                                )}
-                              </div>
-                            </div>
-                          </>
-                        ))}
+                            </>
+                          ))}
                       </div>
                     </>
                   )}
