@@ -166,12 +166,12 @@ export default function Dashboard() {
         {loading && <p className="text-gray-700 animate-pulse">Loading...</p>}
         {!loading && session?.user.stripeAccountVerified ? (
           <>
-            <div className="mb-4">
-              <p className="text-gray-700 mb-2">
+            <div className="flex items-end justify-between md:justify-start mb-4">
+              <p className="text-gray-700 text-start w-1/2 md:w-auto">
                 Welcome to your dashboard, your public profile url is:
               </p>
               <Link href={`/${session.user.username}`}>
-                <span className="text-gray-800 mb-2 underline">
+                <span className="ml-2 underline">
                   {process.env.NEXT_PUBLIC_VERCEL_URL}/{session.user.username}
                 </span>
               </Link>
