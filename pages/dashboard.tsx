@@ -53,7 +53,8 @@ export default function Dashboard() {
       const todaysLessons: Lesson[] = lessons
         .filter(
           (lesson: Lesson) =>
-            new Date(lesson.date).getDate() == selectedDate.getDate()
+            new Date(lesson.date).getDate() == selectedDate.getDate() &&
+            new Date(lesson.date).getMonth() == selectedDate.getMonth()
         )
         .sort(({ date: a }, { date: b }) => (a > b ? 1 : a < b ? -1 : 0));
       setFilteredLessons(todaysLessons);
@@ -451,12 +452,12 @@ export default function Dashboard() {
                   )}
                 </div>
                 <div className="mb-4">
-                  <h3 className="text-2xl font-semibold mb-4">
+                  <h3 className="text-2xl font-semibold mb-2">
                     Manange all bookings
                   </h3>
-                  <div className="flex items-start justify-start">
-                    <p className="text-gray-700 mb-2">
-                      To manage all of your bookings:{" "}
+                  <div className="flex items-end justify-between md:justify-start">
+                    <p className="text-gray-700 text-start w-1/2 md:w-auto">
+                      To manage all of your bookings:
                     </p>
                     <Link href="/bookings/manage" className="underline ml-2">
                       follow this link &rarr;
