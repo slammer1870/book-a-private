@@ -7,6 +7,8 @@ declare module "next-auth" {
   interface Session {
     user: {
       /** The user's stripe account details. */
+      id: String;
+      username: String;
       stripeAccountId: String;
       stripeAccountVerified: Date;
     } & DefaultSession["user"];
@@ -14,6 +16,8 @@ declare module "next-auth" {
 
   interface User {
     /** The user's stripe account details. */
+    id: String;
+    username: String;
     stripeAccountId: String;
     stripeAccountVerified: Date;
   }
@@ -22,6 +26,8 @@ declare module "next-auth" {
 interface Token {
   user: {
     /** The user's stripe account details. */
+    id: String;
+    username: String;
     stripeAccountId: String;
     stripeAccountVerified: Date;
   } & DefaultToken["user"];

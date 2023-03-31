@@ -1,6 +1,6 @@
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL") // Only needed when using a cloud provider that doesn't support the creation of new databases, like Heroku. Learn more: https://pris.ly/migrate-shadow
 }
 
@@ -46,6 +46,7 @@ model User {
   stripeAccountVerified DateTime?
   accounts              Account[]
   sessions              Session[]
+  lessons               Lesson[]
 
   @@unique([email, username])
 }
@@ -56,4 +57,30 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Lesson {
+  id        String    @id @default(cuid())
+  date      DateTime
+  location  String
+  price     Int
+  available Boolean   @default(true)
+  booked    Boolean   @default(false)
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bookings  Booking[]
+
+  @@unique([userId, date])
+}
+
+model Booking {
+  id                  String   @id @default(cuid())
+  lessonId            String
+  lesson              Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  status              String   @default("active")
+  stripePaymentIntent String?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  name                String
+  email               String
 }
