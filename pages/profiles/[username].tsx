@@ -54,7 +54,7 @@ export default function Profile() {
         )}
         {user && !loadingState && (
           <h1 className="mb-2 text-3xl font-medium">
-            {user.name}'s Booking Profile
+            {user.name}&apos;s Booking Profile
           </h1>
         )}
         {!user && !loadingState && (
