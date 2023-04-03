@@ -11,7 +11,7 @@ const Navbar = () => {
     <div className="absolute top-0 left-0 w-full">
       <nav className="container mx-auto flex items-center justify-between p-4">
         <Link href="/">
-          <h1 className="font-semibold text-lg">Book a Private</h1>
+          <h1 className="text-lg font-semibold">Book a Private</h1>
         </Link>
         {!session && !loading && (
           <div>
@@ -19,7 +19,7 @@ const Navbar = () => {
               Log In
             </button>
             <Link href="/register">
-              <button className="ml-4 p-2 bg-gray-500 text-white rounded">
+              <button className="ml-4 rounded bg-gray-500 p-2 text-white">
                 Sign Up
               </button>
             </Link>
@@ -37,7 +37,7 @@ const Navbar = () => {
             </Link>
             <button
               onClick={() => signOut()}
-              className="ml-4 p-2 bg-gray-500 text-white rounded"
+              className="ml-4 rounded bg-gray-500 p-2 text-white"
             >
               Log Out
             </button>

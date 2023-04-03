@@ -52,29 +52,29 @@ export default function Home() {
 
   return (
     <Layout>
-      <div className="container mx-auto p-4 flex min-h-screen text-gray-900">
-        <div className="mx-auto my-auto bg-indigo-100 p-4 rounded w-full max-w-screen-sm">
+      <div className="container mx-auto flex min-h-screen p-4 text-gray-900">
+        <div className="mx-auto my-auto w-full max-w-screen-sm rounded bg-indigo-100 p-4">
           <h1 className="text-2xl font-semibold">Book a Private</h1>
-          <p className="text-gray-700 mb-4">
+          <p className="mb-4 text-gray-700">
             Private lessons bookings made simple.
           </p>
-          <h3 className="text-xl font-medium mb-1">
+          <h3 className="mb-1 text-xl font-medium">
             How it works in three simple steps:
           </h3>
-          <p className="text-lg text-gray-800 mb-2">
+          <p className="mb-2 text-lg text-gray-800">
             1. Claim your username and register your account
           </p>
-          <p className="text-lg text-gray-800 mb-2">
+          <p className="mb-2 text-lg text-gray-800">
             2. Add your available dates, time and booking details.
           </p>
-          <p className="text-lg text-gray-800 mb-4">
+          <p className="mb-4 text-lg text-gray-800">
             3. Share your profile link and start to accept bookings!
           </p>
           <form onSubmit={(e) => handleSubmit(e)}>
-            <div className="flex w-full rounded p-2 bg-white items-center justify-center mb-2">
+            <div className="mb-2 flex w-full items-center justify-center rounded bg-white p-2">
               <p className="">book-a-private.com /</p>
               <input
-                className="w-28 ml-1"
+                className="ml-1 w-28"
                 placeholder="your username"
                 type="text"
                 name="username"
@@ -84,13 +84,13 @@ export default function Home() {
               ></input>
             </div>
             {message && (
-              <p className="text-sm text-green-500 font-medium">{message}</p>
+              <p className="text-sm font-medium text-green-500">{message}</p>
             )}
             {error && (
-              <p className="text-sm text-red-500 font-medium">{error}</p>
+              <p className="text-sm font-medium text-red-500">{error}</p>
             )}
             <button
-              className="p-2 bg-gray-400 text-white w-full rounded mt-2"
+              className="mt-2 w-full rounded bg-gray-400 p-2 text-white"
               type="submit"
             >
               Claim your profile

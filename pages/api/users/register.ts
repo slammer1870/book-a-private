@@ -3,7 +3,6 @@ import { Prisma } from "@prisma/client";
 
 import prisma from "../../../lib/prisma";
 
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -16,8 +15,8 @@ export default async function handler(
       const result = await prisma.user.create({
         data: {
           name: name,
-          email: email,
-          username: username,
+          email: email.toLowerCase(),
+          username: username.toLowerCase(),
         },
       });
 

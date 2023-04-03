@@ -58,54 +58,54 @@ const BookingManageModal = ({
   };
 
   return (
-    <div className="w-screen min-h-screen h-full inset-0 fixed bg-gray-900 bg-opacity-75 z-10">
+    <div className="fixed inset-0 z-10 h-full min-h-screen w-screen bg-gray-900 bg-opacity-75">
       <div className="w-full">
-        <div className="flex container mx-auto p-4">
+        <div className="container mx-auto flex p-4">
           <span
             onClick={() => setActive(undefined)}
-            className="text-4xl text-white cursor-pointer ml-auto"
+            className="ml-auto cursor-pointer text-4xl text-white"
           >
             X
           </span>
         </div>
-        <div className="w-screen h-screen flex items-center justify-center p-4">
-          <div className="w-full max-w-screen-sm bg-white rounded p-4 -mt-20">
-            <h5 className="text-xl font-medium mb-4">Manage your booking</h5>
-            <div className="grid grid-rows-2 grid-cols-2">
-              <div className="flex flex-col mb-4 col-span-1 row-span-1">
-                <span className="font-semibold text-sm mb-2">Time:</span>
+        <div className="flex h-screen w-screen items-center justify-center p-4">
+          <div className="-mt-20 w-full max-w-screen-sm rounded bg-white p-4">
+            <h5 className="mb-4 text-xl font-medium">Manage your booking</h5>
+            <div className="grid grid-cols-2 grid-rows-2">
+              <div className="col-span-1 row-span-1 mb-4 flex flex-col">
+                <span className="mb-2 text-sm font-semibold">Time:</span>
                 <p className="text-sm text-gray-700">
                   {new Date(date).toUTCString()}
                 </p>
               </div>
-              <div className="flex flex-col mb-4 col-span-1 row-span-1">
-                <span className="font-semibold text-sm mb-2">Location:</span>
+              <div className="col-span-1 row-span-1 mb-4 flex flex-col">
+                <span className="mb-2 text-sm font-semibold">Location:</span>
                 <p className="text-sm text-gray-700">{location}</p>
               </div>
-              <div className="flex flex-col mb-4 col-span-1 row-span-1">
-                <span className="font-semibold text-sm mb-2">
+              <div className="col-span-1 row-span-1 mb-4 flex flex-col">
+                <span className="mb-2 text-sm font-semibold">
                   Attendee Name:
                 </span>
                 <p className="text-sm text-gray-700">{name}</p>
               </div>
-              <div className="flex flex-col mb-4 col-span-1 row-span-1">
-                <span className="font-semibold text-sm mb-2">
+              <div className="col-span-1 row-span-1 mb-4 flex flex-col">
+                <span className="mb-2 text-sm font-semibold">
                   Attendee Email:
                 </span>
                 <p className="text-sm text-gray-700">{email}</p>
               </div>
             </div>
-            <p className="text-red-500 text-sm my-4">{error}</p>
+            <p className="my-4 text-sm text-red-500">{error}</p>
             <button
               onClick={() => handleSubmit(booking, "cancel")}
-              className="rounded bg-indigo-400 w-full text-white p-2 mb-4"
+              className="mb-4 w-full rounded bg-indigo-400 p-2 text-white"
             >
               Cancel
             </button>
             {booking.stripePaymentIntent && (
               <button
                 onClick={() => handleSubmit(booking, "refund")}
-                className="rounded bg-red-400 w-full text-white p-2 mb-4"
+                className="mb-4 w-full rounded bg-red-400 p-2 text-white"
               >
                 Refund
               </button>
