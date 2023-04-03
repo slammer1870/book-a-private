@@ -21,10 +21,10 @@ const LinkStripe = () => {
         have initiated the registration by creating a Stripe account for you, we
         just need you to click the button below to complete the process!
       </p>
-      <div className="flex w-full my-12">
+      <div className="my-12 flex w-full">
         <button
           onClick={() => handleStripe()}
-          className="w-full max-w-screen-sm mx-auto bg-indigo-400 hover:bg-indigo-500 text-white p-2 rounded"
+          className="mx-auto w-full max-w-screen-sm rounded bg-indigo-400 p-2 text-white hover:bg-indigo-500"
         >
           Link your Stripe Account
         </button>

@@ -33,8 +33,9 @@ const LessonModal = ({
   const [error, setError] = useState<String>();
   const [dateValue, setDateValue] = useState<Date>(new Date(date));
   const [timeValue, setTimeValue] = useState<string>(formatTime(dateValue));
-  const [locationValue, setLocationValue] =
-    useState<string | undefined>(location);
+  const [locationValue, setLocationValue] = useState<string | undefined>(
+    location
+  );
   const [priceValue, setPriceValue] = useState<string | undefined>(price);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -81,55 +82,55 @@ const LessonModal = ({
     }
   };
   return (
-    <div className="w-screen min-h-screen h-full inset-0 fixed bg-gray-900 bg-opacity-75 z-10">
+    <div className="fixed inset-0 z-10 h-full min-h-screen w-screen bg-gray-900 bg-opacity-75">
       <div className="w-full">
-        <div className="flex container mx-auto p-4">
+        <div className="container mx-auto flex p-4">
           <span
             onClick={() => setActiveLesson(undefined)}
-            className="text-4xl text-white cursor-pointer ml-auto"
+            className="ml-auto cursor-pointer text-4xl text-white"
           >
             X
           </span>
         </div>
-        <div className="w-screen h-screen flex items-center justify-center p-4">
+        <div className="flex h-screen w-screen items-center justify-center p-4">
           <form
             onSubmit={(e) => handleSubmit(e)}
-            className="w-full max-w-screen-sm bg-white rounded p-4 -mt-20"
+            className="-mt-20 w-full max-w-screen-sm rounded bg-white p-4"
           >
-            <h5 className="text-xl font-medium mb-2">
+            <h5 className="mb-2 text-xl font-medium">
               Add a new lesson for {dateValue.toDateString()}
             </h5>
-            <div className="flex flex-col mb-4">
-              <span className="font-semibold text-sm mb-2">Time:</span>
+            <div className="mb-4 flex flex-col">
+              <span className="mb-2 text-sm font-semibold">Time:</span>
               <input
                 type="time"
                 name="time"
                 id="time"
-                className="text-sm font-medium p-2 border rounded"
+                className="rounded border p-2 text-sm font-medium"
                 value={timeValue}
                 onChange={(e) => setTimeValue(e.currentTarget.value)}
                 required
               />
             </div>
-            <div className="flex flex-col mb-4">
-              <span className="font-semibold text-sm mb-2">Location:</span>
+            <div className="mb-4 flex flex-col">
+              <span className="mb-2 text-sm font-semibold">Location:</span>
               <input
                 type="string"
                 name="location"
                 id="location"
-                className="text-sm font-medium p-2 border rounded"
+                className="rounded border p-2 text-sm font-medium"
                 value={locationValue}
                 onChange={(e) => setLocationValue(e.currentTarget.value)}
                 required
               />
             </div>
             <div className="flex flex-col">
-              <span className="font-semibold text-sm mb-2">Price:</span>
+              <span className="mb-2 text-sm font-semibold">Price:</span>
               <input
                 type="number"
                 name="price"
                 id="price"
-                className="text-sm font-medium p-2 border rounded"
+                className="rounded border p-2 text-sm font-medium"
                 value={priceValue}
                 onChange={
                   lesson.booked
@@ -140,8 +141,8 @@ const LessonModal = ({
                 required
               />
             </div>
-            <p className="text-red-500 text-sm my-4">{error}</p>
-            <button className="rounded bg-indigo-400 w-full text-white p-2">
+            <p className="my-4 text-sm text-red-500">{error}</p>
+            <button className="w-full rounded bg-indigo-400 p-2 text-white">
               Submit
             </button>
           </form>

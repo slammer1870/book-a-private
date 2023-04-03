@@ -91,16 +91,16 @@ export default function Register() {
 
   return (
     <Layout>
-      <div className="container mx-auto p-4 flex min-h-screen text-gray-900">
-        <div className="mx-auto my-auto bg-indigo-100 p-4 rounded w-full max-w-screen-sm">
+      <div className="container mx-auto flex min-h-screen p-4 text-gray-900">
+        <div className="mx-auto my-auto w-full max-w-screen-sm rounded bg-indigo-100 p-4">
           <h1 className="text-2xl font-semibold">Complete your registration</h1>
-          <p className="text-gray-700 mb-4">Enter your details below.</p>
+          <p className="mb-4 text-gray-700">Enter your details below.</p>
           <form onSubmit={(e) => handleSubmit(e)}>
-            <div className="flex flex-col mb-4">
+            <div className="mb-4 flex flex-col">
               <label className="mb-1 font-medium">Username</label>
               <input
                 value={usernameValue}
-                className="p-2 rounded"
+                className="rounded p-2"
                 onChange={(e) => setUsernameValue(e.currentTarget.value)}
                 type="text"
                 name="username"
@@ -109,11 +109,11 @@ export default function Register() {
                 required
               ></input>
             </div>
-            <div className="flex flex-col mb-4">
+            <div className="mb-4 flex flex-col">
               <label className="mb-1 font-medium">Name</label>
               <input
                 value={nameValue}
-                className="p-2 rounded"
+                className="rounded p-2"
                 onChange={(e) => setNameValue(e.currentTarget.value)}
                 type="text"
                 name="name"
@@ -121,11 +121,11 @@ export default function Register() {
                 required
               ></input>
             </div>
-            <div className="flex flex-col mb-2">
+            <div className="mb-2 flex flex-col">
               <label className="mb-1 font-medium">Email</label>
               <input
                 value={emailValue}
-                className="p-2 rounded"
+                className="rounded p-2"
                 onChange={(e) => setEmailValue(e.currentTarget.value)}
                 type="email"
                 name="email"
@@ -134,20 +134,20 @@ export default function Register() {
               ></input>
             </div>
             {message && (
-              <p className="text-sm text-green-500 font-medium">{message}</p>
+              <p className="text-sm font-medium text-green-500">{message}</p>
             )}
             {error && (
-              <p className="text-sm text-red-500 font-medium">{error}</p>
+              <p className="text-sm font-medium text-red-500">{error}</p>
             )}
             {!loadingSpinner ? (
               <button
-                className="p-2 bg-gray-400 text-white w-full rounded mt-4"
+                className="mt-4 w-full rounded bg-gray-400 p-2 text-white"
                 type="submit"
               >
                 Claim your profile
               </button>
             ) : (
-              <div className="flex items-center justify-center p-2 bg-gray-400 text-white w-full rounded mt-6">
+              <div className="mt-6 flex w-full items-center justify-center rounded bg-gray-400 p-2 text-white">
                 <div
                   className="inline-block h-6 w-6 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
                   role="status"

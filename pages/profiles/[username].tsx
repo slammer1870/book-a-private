@@ -48,18 +48,18 @@ export default function Profile() {
 
   return (
     <Layout>
-      <div className="container mx-auto px-4 pt-20 pb-10 min-h-screen">
+      <div className="mx-auto min-h-screen max-w-screen-md px-4 pt-20 pb-10">
         {loadingState && (
-          <h1 className="text-3xl font-medium mb-2">Loading...</h1>
+          <h1 className="mb-2 text-3xl font-medium">Loading...</h1>
         )}
         {user && !loadingState && (
-          <h1 className="text-3xl font-medium mb-2">
+          <h1 className="mb-2 text-3xl font-medium">
             {user.name}'s Booking Profile
           </h1>
         )}
         {!user && !loadingState && (
-          <h1 className="text-3xl font-medium mb-2">
-            Booking Profile not found for user with username {username}
+          <h1 className="mb-2 mt-20 text-3xl font-medium">
+            Booking Profile not found for User with username {username}
           </h1>
         )}
       </div>

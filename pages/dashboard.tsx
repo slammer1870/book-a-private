@@ -161,34 +161,35 @@ export default function Dashboard() {
 
   return (
     <Layout>
-      <div className="max-w-screen-md mx-auto px-4 pt-20 pb-10 min-h-screen">
-        <h1 className="text-3xl font-medium mb-2">Dashboard</h1>
-        {loading && <p className="text-gray-700 animate-pulse">Loading...</p>}
+      <div className="mx-auto min-h-screen max-w-screen-md px-4 pt-20 pb-10">
+        <h1 className="mb-2 text-3xl font-medium">Dashboard</h1>
+        {loading && <p className="animate-pulse text-gray-700">Loading...</p>}
         {!loading && session?.user.stripeAccountVerified ? (
           <>
-            <div className="flex items-end justify-between md:justify-start mb-4">
-              <p className="text-gray-700 text-start w-1/2 md:w-auto">
+            <div className="mb-4 flex items-end justify-between md:justify-start">
+              <p className="w-1/2 text-start text-gray-700 md:w-auto">
                 Welcome to your dashboard, your public profile url is:
               </p>
-              <Link href={`/${session.user.username}`}>
+              <Link href={`/profiles/${session.user.username}`}>
                 <span className="ml-2 underline">
-                  {process.env.NEXT_PUBLIC_VERCEL_URL}/{session.user.username}
+                  {process.env.NEXT_PUBLIC_VERCEL_URL}/profiles
+                  {session.user.username}
                 </span>
               </Link>
             </div>
             {upcomingBookings.length >= 1 && (
               <div className="mb-4">
-                <h3 className="text-2xl font-semibold mb-4">
+                <h3 className="mb-4 text-2xl font-semibold">
                   Your upcoming bookings
                 </h3>
                 <div className="flex flex-col">
                   {upcomingBookings.map((lesson: Lesson) => (
                     <div
                       key={new Date(lesson.date).toUTCString()}
-                      className="border rounded-md p-4 mb-4 text-sm flex justify-around"
+                      className="mb-4 flex justify-around rounded-md border p-4 text-sm"
                     >
-                      <div className="grid grid-cols-2 grid-rows-2 gap-4 w-full">
-                        <div className="flex flex-col col-span-1 row-span-1">
+                      <div className="grid w-full grid-cols-2 grid-rows-2 gap-4">
+                        <div className="col-span-1 row-span-1 flex flex-col">
                           <div className="my-auto">
                             <p className="font-semibold">Date:</p>
                             <span>
@@ -196,29 +197,29 @@ export default function Dashboard() {
                             </span>
                           </div>
                         </div>
-                        <div className="flex flex-col col-span-1 row-span-1">
+                        <div className="col-span-1 row-span-1 flex flex-col">
                           <div className="my-auto">
                             <p className="font-semibold">Location:</p>
                             <span>{lesson.location}</span>
                           </div>
                         </div>
-                        <div className="flex flex-col col-span-1 row-span-1">
+                        <div className="col-span-1 row-span-1 flex flex-col">
                           <div className="my-auto">
                             <p className="font-semibold">Attendee Name:</p>
                             <span>{activeBooking(lesson).name}</span>
                           </div>
                         </div>
-                        <div className="flex flex-col col-span-1 row-span-1">
+                        <div className="col-span-1 row-span-1 flex flex-col">
                           <div className="my-auto">
                             <p className="font-semibold">Attendee Email:</p>
                             <span>{activeBooking(lesson).email}</span>
                           </div>
                         </div>
                       </div>
-                      <div className="grid col-span-1 gap-1 grid-rows-2 w-24 md:w-40">
+                      <div className="col-span-1 grid w-24 grid-rows-2 gap-1 md:w-40">
                         <button
                           onClick={() => setBooking(lesson)}
-                          className="bg-green-400 col-span-1 row-span-2 w-full text-white h-min my-auto px-4 py-2 rounded ml-auto"
+                          className="col-span-1 row-span-2 my-auto ml-auto h-min w-full rounded bg-green-400 px-4 py-2 text-white"
                         >
                           Manage this Booking
                         </button>
@@ -227,7 +228,7 @@ export default function Dashboard() {
                   ))}
                   {upcomingBookings.length > 3 && (
                     <div className="my-4 flex">
-                      <Link href="/bookings" className="underline ml-auto">
+                      <Link href="/bookings" className="ml-auto underline">
                         See all upcoming bookings &rarr;
                       </Link>
                     </div>
@@ -236,7 +237,7 @@ export default function Dashboard() {
               </div>
             )}
             <div>
-              <h3 className="text-2xl font-semibold mb-4">
+              <h3 className="mb-4 text-2xl font-semibold">
                 Manage your Availability
               </h3>
               <div className="mb-4">
@@ -370,7 +371,7 @@ export default function Dashboard() {
                             bookings: [],
                           })
                         }
-                        className="border border-dashed p-4 mb-4 w-full text-center text-gray-700 font-thin text-xl"
+                        className="mb-4 w-full border border-dashed p-4 text-center text-xl font-thin text-gray-700"
                       >
                         + Add a new lesson
                       </button>
@@ -385,10 +386,10 @@ export default function Dashboard() {
                             <>
                               <div
                                 key={new Date(lesson.date).toISOString()}
-                                className={`rounded-md border p-4 text-sm flex justify-between mb-4`}
+                                className={`mb-4 flex justify-between rounded-md border p-4 text-sm`}
                               >
-                                <div className="grid grid-cols-2 grid-rows-2 gap-4 w-2/3">
-                                  <div className="flex flex-col col-span-1 row-span-1">
+                                <div className="grid w-2/3 grid-cols-2 grid-rows-2 gap-4">
+                                  <div className="col-span-1 row-span-1 flex flex-col">
                                     <div className="my-auto">
                                       <p className="font-semibold">Date:</p>
                                       <span>
@@ -396,19 +397,19 @@ export default function Dashboard() {
                                       </span>
                                     </div>
                                   </div>
-                                  <div className="flex flex-col col-span-1 row-span-1">
+                                  <div className="col-span-1 row-span-1 flex flex-col">
                                     <div className="my-auto">
                                       <p className="font-semibold">Location:</p>
                                       <span>{lesson.location}</span>
                                     </div>
                                   </div>
-                                  <div className="flex flex-col col-span-1 row-span-1">
+                                  <div className="col-span-1 row-span-1 flex flex-col">
                                     <div className="my-auto">
                                       <p className="font-semibold">Price:</p>
                                       <span>€{lesson.price}</span>
                                     </div>
                                   </div>
-                                  <div className="flex flex-col col-span-1 row-span-1">
+                                  <div className="col-span-1 row-span-1 flex flex-col">
                                     <div className="my-auto">
                                       <p className="font-semibold">Status:</p>
                                       {hasActiveBooking(lesson) ? (
@@ -419,11 +420,11 @@ export default function Dashboard() {
                                     </div>
                                   </div>
                                 </div>
-                                <div className="grid col-span-1 gap-1 grid-rows-2 w-24 md:w-40">
+                                <div className="col-span-1 grid w-24 grid-rows-2 gap-1 md:w-40">
                                   {hasActiveBooking(lesson) ? (
                                     <button
                                       onClick={() => setBooking(lesson)}
-                                      className="bg-green-400 col-span-1 row-span-2 w-full text-white h-min my-auto px-4 py-2 rounded ml-auto"
+                                      className="col-span-1 row-span-2 my-auto ml-auto h-min w-full rounded bg-green-400 px-4 py-2 text-white"
                                     >
                                       Manage this Booking
                                     </button>
@@ -431,19 +432,19 @@ export default function Dashboard() {
                                     <>
                                       <button
                                         onClick={() => setBookingForm(lesson)}
-                                        className="bg-green-400 w-full col-span-1 h-min text-white px-4 py-2 my-auto rounded ml-auto"
+                                        className="col-span-1 my-auto ml-auto h-min w-full rounded bg-green-400 px-4 py-2 text-white"
                                       >
                                         Create a booking
                                       </button>
                                       <button
                                         onClick={() => setActiveLesson(lesson)}
-                                        className="bg-indigo-400 w-full col-span-1 h-min text-white px-4 py-2 my-auto md:mb-2 md:mt-1 rounded ml-auto"
+                                        className="col-span-1 my-auto ml-auto h-min w-full rounded bg-indigo-400 px-4 py-2 text-white md:mb-2 md:mt-1"
                                       >
                                         Edit
                                       </button>
                                       <button
                                         onClick={() => handleDelete(lesson)}
-                                        className="bg-red-400 col-span-1 w-full text-white h-min my-auto px-4 py-2 rounded ml-auto"
+                                        className="col-span-1 my-auto ml-auto h-min w-full rounded bg-red-400 px-4 py-2 text-white"
                                       >
                                         Delete
                                       </button>
@@ -458,14 +459,14 @@ export default function Dashboard() {
                   )}
                 </div>
                 <div className="mb-4">
-                  <h3 className="text-2xl font-semibold mb-2">
+                  <h3 className="mb-2 text-2xl font-semibold">
                     Manange all bookings
                   </h3>
                   <div className="flex items-end justify-between md:justify-start">
-                    <p className="text-gray-700 text-start w-1/2 md:w-auto">
+                    <p className="w-1/2 text-start text-gray-700 md:w-auto">
                       To manage all of your bookings:
                     </p>
-                    <Link href="/bookings/manage" className="underline ml-2">
+                    <Link href="/bookings/manage" className="ml-2 underline">
                       follow this link &rarr;
                     </Link>
                   </div>

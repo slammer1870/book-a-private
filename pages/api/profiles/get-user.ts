@@ -11,14 +11,13 @@ export default async function handler(
     try {
       const user = await prisma.user.findUniqueOrThrow({
         where: {
-          username: username,
+          username: username.toLowerCase(),
         },
         select: {
           name: true,
           username: true,
         },
       });
-      console.log(user);
       return res.json(user);
     } catch (error) {
       console.log(error);
