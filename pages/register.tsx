@@ -15,7 +15,7 @@ export default function Register() {
   const username = router.query.username as string;
 
   if (session && !loading) {
-    return router.push("/dashboard");
+    router.push("/dashboard");
   }
   return (
     <Layout>
