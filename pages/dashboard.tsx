@@ -328,7 +328,7 @@ export default function Dashboard() {
                             </p>
                           </button>
                         ) : (
-                          <div className="mx-auto my-auto flex h-7 w-7 cursor-default items-center justify-center rounded-full border bg-white opacity-30">
+                          <div className="mx-auto my-auto flex h-7 w-7 cursor-not-allowed items-center justify-center rounded-full border bg-white opacity-30">
                             <p className="border-opacity-50 text-xs text-gray-900 ">
                               {day.getDate()}
                             </p>
