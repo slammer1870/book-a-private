@@ -95,7 +95,7 @@ const Calendar = ({
           <span></span>
         )}
       </div>
-      <div className="mb-4 grid grid-cols-7 grid-rows-6 gap-4">
+      <div className="mb-8 grid grid-cols-7 grid-rows-6 gap-4">
         <p className="col-span-1 mx-auto my-auto text-center text-xs font-semibold">
           Mon
         </p>

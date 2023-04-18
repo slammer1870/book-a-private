@@ -15,8 +15,6 @@ export default function Profile() {
 
   const { username } = router.query;
 
-  console.log("username is", username);
-
   const d = new Date();
   const theDayOfTheMonthOnNextWeek = d.getDate() + 7;
   d.setDate(theDayOfTheMonthOnNextWeek);
@@ -25,7 +23,7 @@ export default function Profile() {
   const [userLessons, setUserLessons] = useState<Lesson[]>([]);
   const [loadingState, setLoadingState] = useState<Boolean>();
 
-  const [selectedDate, setSelectedDate] = useState<Date>(d);
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>();
 
   useEffect(() => {
     const getUser = async () => {
@@ -87,6 +85,15 @@ export default function Profile() {
     } else return [];
   };
 
+  const filterTimes = (date: Date) => {
+    return userLessons.filter(
+      (userLesson) =>
+        new Date(userLesson.date).getDate() == date.getDate() &&
+        new Date(userLesson.date).getMonth() == date.getMonth() &&
+        new Date(userLesson.date).getFullYear() == date.getFullYear()
+    );
+  };
+
   return (
     <Layout>
       <div className="mx-auto min-h-screen max-w-screen-md px-4 pt-20 pb-10">
@@ -108,8 +115,16 @@ export default function Profile() {
           availableDays={filterDates(userLessons)}
           selectedDate={selectedDate}
         />
+        {selectedDate && (
+          <div className="flex-wrap space-x-2 space-y-2">
+            {filterTimes(selectedDate).map((date) => (
+              <button className="rounded border p-2">
+                {new Date(date.date).toLocaleTimeString()}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
-      
     </Layout>
   );
 }
