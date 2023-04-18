@@ -117,8 +117,8 @@ export default function Profile() {
         />
         {selectedDate && (
           <div className="flex-wrap space-x-2 space-y-2">
-            {filterTimes(selectedDate).map((date) => (
-              <button className="rounded border p-2">
+            {filterTimes(selectedDate).map((date, i) => (
+              <button className="rounded border p-2" key={i}>
                 {new Date(date.date).toLocaleTimeString()}
               </button>
             ))}
