@@ -2,16 +2,18 @@ import Layout from "@/components/Layout";
 import LessonModal from "@/components/LessonModal";
 import BookingModal from "@/components/BookingModal";
 import LinkStripe from "@/components/LinkStripe";
-import { User } from "next-auth";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
-import React, { useState, useEffect, FormEvent, use } from "react";
+import React, { useState, useEffect } from "react";
 
 import Lesson from "@/interfaces/lesson";
 import Booking from "@/interfaces/booking";
 import Link from "next/link";
 import BookingCreateModal from "@/components/BookingCreateModal";
+
+import { DayPicker } from "react-day-picker";
+import "react-day-picker/dist/style.css";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -256,87 +258,13 @@ export default function Dashboard() {
                     />
                   </svg>
                 </div>
-                <div className="mb-4 flex items-center justify-between px-12">
-                  {d.getMonth() < today.getMonth() ? (
-                    <button
-                      onClick={() =>
-                        setToday(new Date(today.setMonth(today.getMonth() - 1)))
-                      }
-                    >
-                      &#60;
-                    </button>
-                  ) : (
-                    <span></span>
-                  )}
-                  <p>{month}</p>
-                  {today.getMonth() - d.getMonth() < 2 ? (
-                    <button
-                      onClick={() =>
-                        setToday(new Date(today.setMonth(today.getMonth() + 1)))
-                      }
-                    >
-                      &#62;
-                    </button>
-                  ) : (
-                    <span></span>
-                  )}
-                </div>
-                <div className="mb-4 grid grid-cols-7 grid-rows-6 gap-4">
-                  <p className="col-span-1 mx-auto my-auto text-center text-xs font-semibold">
-                    Mon
-                  </p>
-                  <p className="col-span-1 mx-auto my-auto text-center text-xs font-semibold">
-                    Tues
-                  </p>
-                  <p className="col-span-1 mx-auto my-auto text-center text-xs font-semibold">
-                    Weds
-                  </p>
-                  <p className="col-span-1 mx-auto my-auto text-center text-xs font-semibold">
-                    Thurs
-                  </p>
-                  <p className="col-span-1 mx-auto my-auto text-center text-xs font-semibold">
-                    Fri
-                  </p>
-                  <p className="col-span-1 mx-auto my-auto text-center text-xs font-semibold">
-                    Sat
-                  </p>
-                  <p className="col-span-1 mx-auto my-auto text-center text-xs font-semibold">
-                    Sun
-                  </p>
-                  {[...Array(calcArray(days[0].getDay()))].map((x, i) => (
-                    <div
-                      className="mx-auto my-auto h-7 w-7 rounded-full"
-                      key={i}
-                    ></div>
-                  ))}
-                  <>
-                    {days.map((day: Date) => (
-                      <div key={day.toISOString()}>
-                        {day >= d ? (
-                          <button
-                            onClick={() => {
-                              setSelectedDate(day);
-                            }}
-                            className={`${
-                              selectedDate &&
-                              selectedDate == day &&
-                              "border-none bg-indigo-400 text-white shadow-lg"
-                            } mx-auto my-auto flex h-7 w-7 cursor-pointer items-center justify-center rounded-full border border-gray-900`}
-                          >
-                            <p className="border-gray-900 text-xs ">
-                              {day.getDate()}
-                            </p>
-                          </button>
-                        ) : (
-                          <div className="mx-auto my-auto flex h-7 w-7 cursor-not-allowed items-center justify-center rounded-full border bg-white opacity-30">
-                            <p className="border-opacity-50 text-xs text-gray-900 ">
-                              {day.getDate()}
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </>
+                <div className="mx-auto w-min">
+                  <DayPicker
+                    mode="single"
+                    fromDate={new Date()}
+                    selected={selectedDate}
+                    onSelect={setSelectedDate}
+                  />
                 </div>
               </div>
               <div className="mb-4">

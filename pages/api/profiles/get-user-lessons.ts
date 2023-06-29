@@ -9,7 +9,6 @@ export default async function handler(
   if (req.method == "POST") {
     const { username } = req.body;
 
-    console.log("server username", username);
     try {
       const lessons = await prisma.lesson.findMany({
         where: {
