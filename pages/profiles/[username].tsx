@@ -161,29 +161,30 @@ export default function Profile() {
         )}
         {modal && clientSecret ? (
           <>
-            <div className="mb-4 flex-wrap">
-              <div className="mb-4 flex flex-col">
+            <h3 className="text-2xl font-medium mb-4">Your booking information</h3>
+            <div className="mb-4 grid grid-cols-2 grid-rows-2 gap-4 border-b pb-4">
+              <div className="col-span-1 flex flex-col">
                 <h6 className="mb-1 text-sm font-medium">Location:</h6>
                 <p>Brú Grappling Studio</p>
               </div>
-              <div className="mb-4 flex flex-col">
+              <div className="col-span-1 flex flex-col">
                 <h6 className="mb-1 text-sm font-medium">Date and time:</h6>
                 <p>{selectedDate?.toDateString()} </p>
               </div>
-              <div className="mb-4 flex flex-col">
+              <div className="col-span-1 flex flex-col">
                 <h6 className="mb-1 text-sm font-medium">Instructor:</h6>
                 <p>{user?.name}</p>
               </div>
-              <div className="mb-4 flex flex-col border-b pb-4">
+              <div className="col-span-1 flex flex-col">
                 <h6 className="mb-1 text-sm font-medium">
                   Email (for your booking confirmation):
                 </h6>
                 <p>{email}</p>
               </div>
-              <div className="flex items-center justify-between">
-                <h6 className="mb-1 font-medium">Total:</h6>
-                <p>€{selectedLesson?.price}</p>
-              </div>
+            </div>
+            <div className="mb-10 flex items-center justify-between">
+              <h6 className="mb-1 font-medium">Total:</h6>
+              <p>€{selectedLesson?.price}</p>
             </div>
             <Elements
               stripe={stripePromise}

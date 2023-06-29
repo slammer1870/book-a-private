@@ -20,7 +20,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                     fontSize: "12pt",
                     fontFamily: "Times New Roman",
                     color: "#000000",
-                    textAlign: "Center",
+                    textAlign: "center",
                   }}
                 >
                   <span
@@ -39,7 +39,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                     fontSize: "12pt",
                     fontFamily: "Times New Roman",
                     color: "#000000",
-                    textAlign: "Left",
+                    textAlign: "left",
                   }}
                 >
                   These terms and conditions (the &ldquo;Terms and
@@ -62,7 +62,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     <span
@@ -89,7 +89,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     <span
@@ -169,7 +169,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     If we believe you are using our Site illegally or in a
@@ -186,7 +186,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     <span
@@ -223,7 +223,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     By posting publicly on our Site, you agree not to act
@@ -237,7 +237,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     <span
@@ -291,7 +291,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     We reserve the right to suspend or terminate your account if
@@ -306,7 +306,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     <span
@@ -328,7 +328,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     The following goods are available on our Site:
@@ -367,7 +367,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     We are under a legal duty to supply goods that match the
@@ -379,7 +379,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     The following services are available on our Site:
@@ -406,7 +406,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     The services will be paid for in full when the services are
@@ -418,7 +418,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     These Terms and Conditions apply to all the goods and
@@ -438,7 +438,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     We reserve the right to modify, reject or cancel your order
@@ -456,7 +456,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     <span
@@ -486,7 +486,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     <span
@@ -509,7 +509,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     To cancel your subscription, please follow these steps:
@@ -541,7 +541,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     <span
@@ -602,7 +602,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     When you provide us with your payment information, you
@@ -624,7 +624,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     <span
@@ -665,7 +665,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     Delivery will take place as soon as reasonably possible,
@@ -679,7 +679,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     You will be required to pay delivery charges in addition to
@@ -691,7 +691,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     You are required to provide us with a complete and accurate
@@ -708,7 +708,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     <span
@@ -794,7 +794,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     To exercise your right to cancel you must inform us of your
@@ -813,7 +813,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     The right to cancel does not apply to:
@@ -933,7 +933,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     <span style={{ textDecoration: "underline" }}>
@@ -989,7 +989,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     We will make the reimbursement using the same form of
@@ -1003,7 +1003,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     This right to cancel and to reimbursement is not affected by
@@ -1018,7 +1018,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                         fontSize: "12pt",
                         fontFamily: "Times New Roman",
                         color: "#000000",
-                        textAlign: "Left",
+                        textAlign: "left",
                       }}
                     >
                       <span
@@ -1045,7 +1045,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                           fontSize: "12pt",
                           fontFamily: "Times New Roman",
                           color: "#000000",
-                          textAlign: "Left",
+                          textAlign: "left",
                         }}
                       >
                         Refunds do not apply to the following goods:
@@ -1081,7 +1081,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                         fontSize: "12pt",
                         fontFamily: "Times New Roman",
                         color: "#000000",
-                        textAlign: "Left",
+                        textAlign: "left",
                       }}
                     >
                       <span style={{ textDecoration: "underline" }}>
@@ -1119,7 +1119,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     <span
@@ -1143,7 +1143,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     <span
@@ -1177,7 +1177,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     <span
@@ -1208,7 +1208,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     <span
@@ -1234,7 +1234,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     <span
@@ -1262,7 +1262,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     <span
@@ -1286,7 +1286,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     <span
@@ -1315,7 +1315,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     <span
@@ -1343,7 +1343,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     <span
@@ -1372,7 +1372,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     You can also contact us through the feedback form available
@@ -1385,7 +1385,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                     fontSize: "12pt",
                     fontFamily: "Times New Roman",
                     color: "#000000",
-                    textAlign: "Right",
+                    textAlign: "right",
                   }}
                 >
                   Effective Date: ________ day of ________________, ________
@@ -1398,7 +1398,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Center",
+                      textAlign: "center",
                     }}
                   >
                     <span style={{ fontStyle: "normal", fontWeight: "bold" }}>
@@ -1411,7 +1411,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     If you want to cancel your contract of sale with us you may
@@ -1431,7 +1431,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       fontSize: "12pt",
                       fontFamily: "Times New Roman",
                       color: "#000000",
-                      textAlign: "Left",
+                      textAlign: "left",
                     }}
                   >
                     I hereby give notice that I cancel my contract of sale of

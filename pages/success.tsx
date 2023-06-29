@@ -61,7 +61,7 @@ export default function Success() {
         {paymentIntent ? (
           <>
             <h3 className="mb-2 text-2xl font-medium">
-              Success! Thank you for your purchase!
+              Thank you for your purchase!
             </h3>
             <p className="mb-2">
               A receipt has been sent to {paymentIntentResult?.receipt_email}

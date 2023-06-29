@@ -62,14 +62,38 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
       // check to see if user has not previosuly verified stripe account but webhook has payouts enabled
       if (!user?.stripeAccountVerified && account.payouts_enabled == true) {
         //update user to show stripe verified
-        const updateUser = await prisma.user.update({
-          where: {
-            stripeAccountId: account.id,
-          },
+        try {
+          await prisma.user.update({
+            where: {
+              stripeAccountId: account.id,
+            },
+            data: {
+              stripeAccountVerified: new Date(Date.now()),
+            },
+          });
+        } catch (error) {
+          console.error("Error updating user status:", error);
+        }
+      }
+    }
+    if (event.type === "payment_intent.succeeded") {
+      console.log("payment intent");
+      const paymentIntent = event.data.object as Stripe.PaymentIntent;
+      const { lessonId, name, email } = paymentIntent.metadata;
+
+      try {
+        await prisma.booking.create({
           data: {
-            stripeAccountVerified: new Date(Date.now()),
+            lessonId: lessonId,
+            stripePaymentIntent: paymentIntent.id,
+            name: name,
+            email: email,
           },
         });
+
+        console.log(`Lesson ${lessonId} status updated to 'booked'.`);
+      } catch (error) {
+        console.error("Error updating lesson status:", error);
       }
     }
 

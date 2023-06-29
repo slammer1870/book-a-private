@@ -37,7 +37,7 @@ export default async function handler(
     metadata: {
       name: name,
       email: email,
-      private_lesson_id: lesson.id,
+      lessonId: lesson.id,
     },
     application_fee_amount: fee,
     transfer_data: { destination: user?.stripeAccountId as string },
