@@ -11,7 +11,6 @@ const Calendar = ({
   selectedDate,
   selectDate,
 }: CalendarProps) => {
-  console.log("available days", availableDays);
   //get todays date
   let d = new Date();
 
@@ -40,7 +39,7 @@ const Calendar = ({
   //calculating the number of days in a month given the month and year
   const getDays = (month: number, year: number) => {
     const days = [];
-    var date = new Date(Date.UTC(year, month, 1));
+    var date = new Date(year, month, 1);
     while (date.getMonth() === month) {
       days.push(new Date(date));
       date.setDate(date.getDate() + 1);
@@ -49,14 +48,12 @@ const Calendar = ({
   };
 
   const [days, setDays] = useState(
-    getDays(today.getUTCMonth(), today.getUTCFullYear())
+    getDays(today.getMonth(), today.getFullYear())
   );
 
-  console.log("days are", days);
-
   useEffect(() => {
-    setMonth(months[today.getUTCMonth()]);
-    setDays(getDays(today.getUTCMonth(), today.getUTCFullYear()));
+    setMonth(months[today.getMonth()]);
+    setDays(getDays(today.getMonth(), today.getFullYear()));
   }, [today]);
 
   // calculate how many spaces need to be taken up by empty boxes on the calender given the start date of the month
@@ -117,7 +114,7 @@ const Calendar = ({
         <p className="col-span-1 mx-auto my-auto text-center text-xs font-semibold">
           Sun
         </p>
-        {[...Array(calcArray(days[0].getDay()))].map((x, i) => (
+        {[...Array(calcArray(days[0]?.getDay()))].map((x, i) => (
           <div className="mx-auto my-auto h-7 w-7 rounded-full" key={i}></div>
         ))}
         <>
