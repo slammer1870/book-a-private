@@ -122,7 +122,7 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
           to: email as string,
           from: FROM_EMAIL,
           reply_to: user.email as string,
-          subject: "Thank you for your Booking " + name,
+          subject: "Thank you for your booking " + name,
           text: user_message,
         };
 
