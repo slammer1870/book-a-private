@@ -14,6 +14,7 @@ import BookingCreateModal from "@/components/BookingCreateModal";
 
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
+import Calendar from "@/components/Calendar";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -266,6 +267,11 @@ export default function Dashboard() {
                     onSelect={setSelectedDate}
                   />
                 </div>
+                <Calendar
+                  selectedDate={selectedDate}
+                  selectDate={setSelectedDate}
+                  availableDays={days}
+                />
               </div>
               <div className="mb-4">
                 <div className="item-center mb-4 flex justify-center bg-gray-200 p-2 text-center">
