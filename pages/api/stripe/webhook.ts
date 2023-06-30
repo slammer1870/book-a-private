@@ -88,10 +88,6 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
       const paymentIntent = event.data.object as Stripe.PaymentIntent;
       const { lessonId, name, email } = paymentIntent.metadata;
 
-      const constructMessage = (booking: Booking, lesson: Lesson) => {
-        return `New booking from ${booking.name} ${booking.email} on ${lesson.date}`;
-      };
-
       try {
         const booking = await prisma.booking.create({
           data: {
@@ -110,16 +106,29 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
           where: { id: lesson.userId },
         });
 
-        const message = constructMessage(booking, lesson) as string;
+        const instructor_message = `New booking from ${booking.name} ${booking.email} on ${lesson.date}`;
 
-        const msg = {
+        const instructor_msg = {
           to: user.email as string,
           from: FROM_EMAIL,
+          reply_to: email as string,
           subject: "New booking from " + email,
-          text: message,
+          text: instructor_message,
         };
 
-        await sgMail.send(msg);
+        await sgMail.send(instructor_msg);
+
+        const user_message = `Thank you for your booking on ${lesson.date} with ${user.name} ${user.email}`;
+
+        const user_msg = {
+          to: email as string,
+          from: FROM_EMAIL,
+          reply_to: user.email as string,
+          subject: "Thank you for your Booking " + name,
+          text: user_message,
+        };
+
+        await sgMail.send(user_msg);
         console.log(`Lesson ${lessonId} status updated to 'booked'.`);
       } catch (error) {
         console.error("Error updating lesson status:", error);
