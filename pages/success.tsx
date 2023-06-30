@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 import { useEffect, useState } from "react";
 
@@ -42,7 +43,7 @@ const usePaymentIntent = (payment_intent: string | string[] | undefined) => {
 export default function Success() {
   const router = useRouter();
 
-  const { payment_intent } = router.query;
+  const { payment_intent, user } = router.query;
 
   const { paymentIntent, loading, error } = usePaymentIntent(payment_intent);
 
@@ -66,12 +67,9 @@ export default function Success() {
             <p className="mb-2">
               A receipt has been sent to {paymentIntentResult?.receipt_email}
             </p>
-            <button
-              className="font-medium underline"
-              onClick={() => router.back()}
-            >
-              Click here tp return to the booking page
-            </button>
+            <Link className="font-medium underline" href={`/profiles/${user}`}>
+              Click here to return to the booking page
+            </Link>
           </>
         ) : (
           <p>Loading...</p>

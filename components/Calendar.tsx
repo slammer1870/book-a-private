@@ -68,7 +68,8 @@ const Calendar = ({
   return (
     <>
       <div className="mb-4 flex items-center justify-between px-12">
-        {d.getMonth() < today.getMonth() ? (
+        {d.getMonth() + d.getFullYear() <
+        today.getMonth() + today.getFullYear() ? (
           <button
             onClick={() =>
               setToday(new Date(today.setMonth(today.getMonth() - 1)))
@@ -80,7 +81,8 @@ const Calendar = ({
           <span></span>
         )}
         <p>{month}</p>
-        {today.getMonth() - d.getMonth() < 2 ? (
+        {today.getMonth() <
+        availableDays[availableDays.length - 1]?.getMonth() ? (
           <button
             onClick={() =>
               setToday(new Date(today.setMonth(today.getMonth() + 1)))

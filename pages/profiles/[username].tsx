@@ -161,7 +161,15 @@ export default function Profile() {
         )}
         {modal && clientSecret ? (
           <>
-            <h3 className="text-2xl font-medium mb-4">Your booking information</h3>
+            <button
+              onClick={() => setModal(false)}
+              className="mb-2 font-medium underline"
+            >
+              &larr; Click here to go back
+            </button>
+            <h3 className="mb-4 text-2xl font-medium">
+              Your booking information
+            </h3>
             <div className="mb-4 grid grid-cols-2 grid-rows-2 gap-4 border-b pb-4">
               <div className="col-span-1 flex flex-col">
                 <h6 className="mb-1 text-sm font-medium">Location:</h6>
@@ -199,7 +207,7 @@ export default function Profile() {
                 clientSecret: clientSecret,
               }}
             >
-              <CheckoutForm />
+              <CheckoutForm user={user?.username} />
             </Elements>
           </>
         ) : (

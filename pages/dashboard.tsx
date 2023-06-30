@@ -14,6 +14,7 @@ import BookingCreateModal from "@/components/BookingCreateModal";
 
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
+import Calendar from "@/components/Calendar";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -111,6 +112,20 @@ export default function Dashboard() {
     } else {
       return 1;
     }
+  };
+
+  const generateDateArray = () => {
+    const dateArray: Date[] = [];
+    const startDate = new Date();
+    const endDate = new Date();
+    endDate.setDate(endDate.getDate() + 90);
+
+    while (startDate <= endDate) {
+      dateArray.push(new Date(startDate));
+      startDate.setDate(startDate.getDate() + 1);
+    }
+
+    return dateArray;
   };
 
   // filter for lessons with active bookings
@@ -258,14 +273,11 @@ export default function Dashboard() {
                     />
                   </svg>
                 </div>
-                <div className="mx-auto w-min">
-                  <DayPicker
-                    mode="single"
-                    fromDate={new Date()}
-                    selected={selectedDate}
-                    onSelect={setSelectedDate}
-                  />
-                </div>
+                <Calendar
+                  selectedDate={selectedDate}
+                  selectDate={setSelectedDate}
+                  availableDays={generateDateArray()}
+                />
               </div>
               <div className="mb-4">
                 <div className="item-center mb-4 flex justify-center bg-gray-200 p-2 text-center">
