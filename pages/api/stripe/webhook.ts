@@ -2,6 +2,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import prisma from "@/lib/prisma";
 
+import { Booking, Lesson } from "@prisma/client";
+
 import { buffer } from "micro";
 import Cors from "micro-cors";
 
@@ -12,6 +14,11 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 });
 
 const webhookSecret: string = process.env.STRIPE_WEBHOOK_SECRET!;
+
+import sgMail from "@sendgrid/mail";
+
+sgMail.setApiKey(process.env.SMTP_PASSWORD as string);
+const FROM_EMAIL = process.env.SMTP_FROM || "default@gmail.com";
 
 // Stripe requires the raw body to construct the event.
 export const config = {
@@ -81,8 +88,12 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
       const paymentIntent = event.data.object as Stripe.PaymentIntent;
       const { lessonId, name, email } = paymentIntent.metadata;
 
+      const constructMessage = (booking: Booking, lesson: Lesson) => {
+        return `New booking from ${booking.name} ${booking.email} on ${lesson.date}`;
+      };
+
       try {
-        await prisma.booking.create({
+        const booking = await prisma.booking.create({
           data: {
             lessonId: lessonId,
             stripePaymentIntent: paymentIntent.id,
@@ -91,6 +102,24 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
           },
         });
 
+        const lesson = await prisma.lesson.findUniqueOrThrow({
+          where: { id: lessonId as string },
+        });
+
+        const user = await prisma.user.findUniqueOrThrow({
+          where: { id: lesson.userId },
+        });
+
+        const message = constructMessage(booking, lesson) as string;
+
+        const msg = {
+          to: user.email as string,
+          from: FROM_EMAIL,
+          subject: "New booking from " + email,
+          text: message,
+        };
+
+        await sgMail.send(msg);
         console.log(`Lesson ${lessonId} status updated to 'booked'.`);
       } catch (error) {
         console.error("Error updating lesson status:", error);
