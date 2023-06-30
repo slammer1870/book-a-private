@@ -114,6 +114,20 @@ export default function Dashboard() {
     }
   };
 
+  const generateDateArray = () => {
+    const dateArray: Date[] = [];
+    const startDate = new Date();
+    const endDate = new Date();
+    endDate.setDate(endDate.getDate() + 90);
+
+    while (startDate <= endDate) {
+      dateArray.push(new Date(startDate));
+      startDate.setDate(startDate.getDate() + 1);
+    }
+
+    return dateArray;
+  };
+
   // filter for lessons with active bookings
   const filterBookings = (lessons: Lesson[]) => {
     return lessons.filter(
@@ -259,18 +273,10 @@ export default function Dashboard() {
                     />
                   </svg>
                 </div>
-                <div className="mx-auto w-min">
-                  <DayPicker
-                    mode="single"
-                    fromDate={new Date()}
-                    selected={selectedDate}
-                    onSelect={setSelectedDate}
-                  />
-                </div>
                 <Calendar
                   selectedDate={selectedDate}
                   selectDate={setSelectedDate}
-                  availableDays={days}
+                  availableDays={generateDateArray()}
                 />
               </div>
               <div className="mb-4">
