@@ -13,8 +13,6 @@ export default async function handler(
 ) {
   const { name, email, lesson } = req.body;
 
-  console.log("lesson is", lesson);
-
   const user = await prisma.user.findUnique({
     where: {
       id: lesson.userId,
