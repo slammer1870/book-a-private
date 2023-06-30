@@ -8,7 +8,11 @@ import { useRouter } from "next/router";
 
 import TermsOfService from "./TermsOfService";
 
-export default function CheckoutForm() {
+type CheckoutProps = {
+  user?: String;
+};
+
+export default function CheckoutForm({ user }: CheckoutProps) {
   const stripe = useStripe();
   const elements = useElements();
   const router = useRouter();
@@ -73,7 +77,7 @@ export default function CheckoutForm() {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: `https://${window.location.hostname}/success`,
+        return_url: `https://${window.location.hostname}/success?user=${user}`,
       },
     });
 
