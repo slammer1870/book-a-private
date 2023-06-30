@@ -2,8 +2,6 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import prisma from "@/lib/prisma";
 
-import { Booking, Lesson } from "@prisma/client";
-
 import { buffer } from "micro";
 import Cors from "micro-cors";
 
