@@ -174,7 +174,7 @@ export default function Dashboard() {
               </p>
               <Link href={`/profiles/${session.user.username}`}>
                 <span className="ml-2 underline">
-                  {process.env.NEXT_PUBLIC_VERCEL_URL}/profiles
+                  {process.env.NEXT_PUBLIC_VERCEL_URL}/profiles/
                   {session.user.username}
                 </span>
               </Link>
