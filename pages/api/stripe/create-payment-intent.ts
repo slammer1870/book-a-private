@@ -19,11 +19,7 @@ export default async function handler(
     },
   });
 
-  console.log("user is", user);
-
   const fee = lesson.price * 0.15 * 100;
-
-  console.log("fee is", fee);
 
   // Create a PaymentIntent with the order amount and currency
   const paymentIntent = await stripe.paymentIntents.create({
