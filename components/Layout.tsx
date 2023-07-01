@@ -13,7 +13,7 @@ const Layout = ({ children }: Props) => {
     <>
       <Head>
         <title>Book a Private</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
       </Head>
       <Navbar />
       <main>{children}</main>
