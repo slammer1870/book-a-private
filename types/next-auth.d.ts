@@ -11,6 +11,7 @@ declare module "next-auth" {
       username: String;
       stripeAccountId: String;
       stripeAccountVerified: Date;
+      blurb: String;
     } & DefaultSession["user"];
   }
 
@@ -20,6 +21,7 @@ declare module "next-auth" {
     username: String;
     stripeAccountId: String;
     stripeAccountVerified: Date;
+    blurb: String;
   }
 }
 

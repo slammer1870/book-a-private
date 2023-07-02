@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { Prisma } from "@prisma/client";
+import { Prisma, User } from "@prisma/client";
 
 import prisma from "../../../lib/prisma";
 
@@ -10,13 +10,17 @@ export default async function handler(
   if (req.method == "POST") {
     const { name, email, username } = req.body;
 
+    const blurb =
+      "Hello and welcome to my profile. Booking are refundable up to 24 hours in advance.";
+
     try {
       //creates the user in the db
-      const result = await prisma.user.create({
+      const result: User = await prisma.user.create({
         data: {
           name: name,
           email: email.toLowerCase(),
           username: username.toLowerCase(),
+          blurb: blurb,
         },
       });
 

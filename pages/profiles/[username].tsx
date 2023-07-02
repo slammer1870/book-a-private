@@ -10,14 +10,11 @@ import { Elements } from "@stripe/react-stripe-js";
 
 import React, { useEffect, useState } from "react";
 
+import { User } from "@prisma/client";
+
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string
 );
-
-type User = {
-  name: String;
-  username: String;
-};
 
 export default function Profile() {
   const router = useRouter();
@@ -147,18 +144,22 @@ export default function Profile() {
     <Layout>
       <div className="mx-auto min-h-screen max-w-screen-md px-4 pt-20 pb-10">
         {loadingState && !user && (
-          <h1 className="mb-2 text-3xl font-medium">Loading...</h1>
+          <h1 className="mb-4 text-3xl font-medium">Loading...</h1>
         )}
         {user && (
-          <h1 className="mb-8 text-3xl font-medium">
-            {user.name}&apos;s Booking Profile
-          </h1>
+          <div className="mb-4">
+            <h1 className="mb-2 text-3xl font-medium">
+              {user.name}&apos;s Booking Profile
+            </h1>
+            <p className="">{user.blurb}</p>
+          </div>
         )}
         {!user && !loadingState && (
           <h1 className="mt-20 text-3xl font-medium">
             Booking Profile not found for User with username {username}
           </h1>
         )}
+
         {modal && clientSecret ? (
           <>
             <button
@@ -207,7 +208,7 @@ export default function Profile() {
                 clientSecret: clientSecret,
               }}
             >
-              <CheckoutForm user={user?.username} />
+              <CheckoutForm user={user?.username as String} />
             </Elements>
           </>
         ) : (
