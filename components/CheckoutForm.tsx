@@ -112,7 +112,7 @@ export default function CheckoutForm({ user }: CheckoutProps) {
             required
           />
           <label className="text-xs text-gray-500 lg:text-base">
-            I consent to Brú Grappling&apos;s{" "}
+            I consent to Book a Private&apos;s{" "}
             <span className="underline" onClick={handleTos}>
               terms of service
             </span>

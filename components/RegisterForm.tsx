@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 
 import { signIn } from "next-auth/react";
 
+import TermsOfService from "./TermsOfService";
+
 type RegisterProps = {
   username?: string;
 };
@@ -14,6 +16,8 @@ const RegisterForm = ({ username }: RegisterProps) => {
   const [message, setMessage] = useState<string>();
   const [error, setError] = useState<string>();
   const [disabled, setDisabled] = useState<boolean>();
+
+  const [tos, setTos] = useState<Boolean>(false);
 
   const [loadingSpinner, setLoadingSpinner] = useState(false);
 
@@ -84,74 +88,100 @@ const RegisterForm = ({ username }: RegisterProps) => {
     }
   };
 
+  const handleTos = () => {
+    if (tos) {
+      setTos(false);
+    } else {
+      setTos(true);
+    }
+  };
+
   return (
-    <div className="mx-auto my-auto w-full max-w-screen-sm rounded bg-indigo-100 p-4">
-      <h1 className="text-2xl font-semibold">Complete your registration</h1>
-      <p className="mb-4 text-gray-700">Enter your details below.</p>
-      <form onSubmit={(e) => handleSubmit(e)}>
-        <div className="mb-4 flex flex-col">
-          <label className="mb-1 font-medium">Username</label>
-          <input
-            value={usernameValue}
-            className="rounded p-2"
-            onChange={(e) => setUsernameValue(e.currentTarget.value)}
-            type="text"
-            name="username"
-            id="username"
-            minLength={5}
-            required
-          ></input>
-        </div>
-        <div className="mb-4 flex flex-col">
-          <label className="mb-1 font-medium">Name</label>
-          <input
-            value={nameValue}
-            className="rounded p-2"
-            onChange={(e) => setNameValue(e.currentTarget.value)}
-            type="text"
-            name="name"
-            id="name"
-            required
-          ></input>
-        </div>
-        <div className="mb-2 flex flex-col">
-          <label className="mb-1 font-medium">Email</label>
-          <input
-            value={emailValue}
-            className="rounded p-2"
-            onChange={(e) => setEmailValue(e.currentTarget.value)}
-            type="email"
-            name="email"
-            id="email"
-            required
-          ></input>
-        </div>
-        {message && (
-          <p className="text-sm font-medium text-green-500">{message}</p>
-        )}
-        {error && <p className="text-sm font-medium text-red-500">{error}</p>}
-        {!loadingSpinner ? (
-          <button
-            className="mt-2 w-full rounded bg-gray-400 p-2 text-white disabled:cursor-not-allowed disabled:bg-gray-300"
-            type="submit"
-            disabled={disabled}
-          >
-            Claim your profile
-          </button>
-        ) : (
-          <div className="mt-6 flex w-full items-center justify-center rounded bg-gray-400 p-2 text-white">
-            <div
-              className="inline-block h-6 w-6 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-              role="status"
-            >
-              <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-                Loading...
-              </span>
-            </div>
+    <>
+      <div className="mx-auto my-auto w-full max-w-screen-sm rounded bg-indigo-100 p-4">
+        <h1 className="text-2xl font-semibold">Complete your registration</h1>
+        <p className="mb-4 text-gray-700">Enter your details below.</p>
+        <form onSubmit={(e) => handleSubmit(e)}>
+          <div className="mb-4 flex flex-col">
+            <label className="mb-1 font-medium">Username</label>
+            <input
+              value={usernameValue}
+              className="rounded p-2"
+              onChange={(e) => setUsernameValue(e.currentTarget.value)}
+              type="text"
+              name="username"
+              id="username"
+              minLength={5}
+              required
+            ></input>
           </div>
-        )}
-      </form>
-    </div>
+          <div className="mb-4 flex flex-col">
+            <label className="mb-1 font-medium">Name</label>
+            <input
+              value={nameValue}
+              className="rounded p-2"
+              onChange={(e) => setNameValue(e.currentTarget.value)}
+              type="text"
+              name="name"
+              id="name"
+              required
+            ></input>
+          </div>
+          <div className="mb-2 flex flex-col">
+            <label className="mb-1 font-medium">Email</label>
+            <input
+              value={emailValue}
+              className="rounded p-2"
+              onChange={(e) => setEmailValue(e.currentTarget.value)}
+              type="email"
+              name="email"
+              id="email"
+              required
+            ></input>
+          </div>
+          <div className="relative mb-4 flex w-full items-center justify-start">
+            <input
+              type="checkbox"
+              id="gdpr"
+              name="gdpr"
+              className="mr-2"
+              required
+            />
+            <label className="text-xs text-gray-900 lg:text-base">
+              I consent to Book a Private&apos;s{" "}
+              <span className="underline" onClick={handleTos}>
+                terms of service
+              </span>
+            </label>
+          </div>
+          {message && (
+            <p className="text-sm font-medium text-green-500">{message}</p>
+          )}
+          {error && <p className="text-sm font-medium text-red-500">{error}</p>}
+          {!loadingSpinner ? (
+            <button
+              className="mt-2 w-full rounded bg-gray-400 p-2 text-white disabled:cursor-not-allowed disabled:bg-gray-300"
+              type="submit"
+              disabled={disabled}
+            >
+              Claim your profile
+            </button>
+          ) : (
+            <div className="mt-6 flex w-full items-center justify-center rounded bg-gray-400 p-2 text-white">
+              <div
+                className="inline-block h-6 w-6 animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                role="status"
+              >
+                <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                  Loading...
+                </span>
+              </div>
+            </div>
+          )}
+        </form>
+      </div>
+      {tos && <TermsOfService handleTos={handleTos} />}
+    </>
   );
 };
 
