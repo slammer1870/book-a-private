@@ -15,7 +15,7 @@ export default async function handler(
 
     const usernameRegex = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
-    if (!usernameRegex.test(username)) {
+    if (!usernameRegex.test(username.toLowerCase())) {
       return res.status(401).send({
         error:
           "Username must begin and end with a number or letter and can only also include a hyphen",
