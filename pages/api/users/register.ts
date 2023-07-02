@@ -11,7 +11,7 @@ export default async function handler(
     const { name, email, username } = req.body;
 
     const blurb =
-      "Hello and welcome to my profile. Booking are refundable up to 24 hours in advance.";
+      "Hello and welcome to my profile. Each lesson is 1 hour long. Booking are refundable up to 24 hours in advance.";
 
     try {
       //creates the user in the db
