@@ -406,7 +406,7 @@ export default function Dashboard() {
                                     </div>
                                   </div>
                                   <div className="col-span-1 row-span-1 flex flex-col">
-                                    <div className="my-auto">
+                                    <div className="my-auto overflow-auto">
                                       <p className="font-semibold">Location:</p>
                                       <span>{lesson.location}</span>
                                     </div>
