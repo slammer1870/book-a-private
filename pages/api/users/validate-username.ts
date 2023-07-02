@@ -13,14 +13,23 @@ export default async function handler(
   if (req.method == "POST") {
     const { username } = req.body;
 
+    const usernameRegex = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
+    if (!usernameRegex.test(username)) {
+      return res.status(401).send({
+        error:
+          "Username must begin and end with a number or letter and can only also include a hyphen",
+      });
+    }
+
     if (username.length < 4) {
-      res
+      return res
         .status(401)
         .send({ error: "Username must be greater than 4 characters." });
     }
 
     if (username.length > 24) {
-      res
+      return res
         .status(401)
         .send({ error: "Username must be less than 24 characters." });
     }
