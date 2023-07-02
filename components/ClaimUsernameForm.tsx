@@ -7,6 +7,7 @@ const ClaimUsernameForm = () => {
   const [username, setUsername] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [disabled, setDisabled] = useState<boolean>();
 
   useEffect(() => {
     const validateUsername = async () => {
@@ -23,11 +24,13 @@ const ClaimUsernameForm = () => {
       if (error) {
         setMessage("");
         setError(error);
+        setDisabled(true);
       }
 
       if (message) {
         setError("");
         setMessage(message);
+        setDisabled(false);
       }
     };
 
@@ -85,8 +88,9 @@ const ClaimUsernameForm = () => {
         )}
         {error && <p className="text-sm font-medium text-red-500">{error}</p>}
         <button
-          className="mt-2 w-full rounded bg-gray-400 p-2 text-white"
+          className="mt-2 w-full rounded bg-gray-400 p-2 text-white disabled:bg-gray-300 disabled:cursor-not-allowed"
           type="submit"
+          disabled={disabled}
         >
           Claim your profile
         </button>

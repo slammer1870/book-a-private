@@ -13,6 +13,7 @@ const RegisterForm = ({ username }: RegisterProps) => {
 
   const [message, setMessage] = useState<string>();
   const [error, setError] = useState<string>();
+  const [disabled, setDisabled] = useState<boolean>();
 
   const [loadingSpinner, setLoadingSpinner] = useState(false);
 
@@ -37,11 +38,13 @@ const RegisterForm = ({ username }: RegisterProps) => {
       if (error) {
         setMessage("");
         setError(error);
+        setDisabled(true);
       }
 
       if (message) {
         setError("");
         setMessage(message);
+        setDisabled(false);
       }
     };
 
@@ -129,8 +132,9 @@ const RegisterForm = ({ username }: RegisterProps) => {
         {error && <p className="text-sm font-medium text-red-500">{error}</p>}
         {!loadingSpinner ? (
           <button
-            className="mt-4 w-full rounded bg-gray-400 p-2 text-white"
+            className="mt-2 w-full rounded bg-gray-400 p-2 text-white disabled:cursor-not-allowed disabled:bg-gray-300"
             type="submit"
+            disabled={disabled}
           >
             Claim your profile
           </button>

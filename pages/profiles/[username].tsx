@@ -264,7 +264,7 @@ export default function Profile() {
                       <span className="mb-1 font-medium">Time:</span>
                       <p>{new Date(lesson.date).toLocaleTimeString()}</p>
                     </div>
-                    <div className="flex flex-col">
+                    <div className="flex w-1/4 flex-col overflow-auto">
                       <span className="mb-1 font-medium">Location:</span>
                       <p>{lesson.location}</p>
                     </div>

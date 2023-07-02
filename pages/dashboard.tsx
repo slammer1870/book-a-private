@@ -5,7 +5,7 @@ import LinkStripe from "@/components/LinkStripe";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
-import React, { useState, useEffect, useRef, LegacyRef } from "react";
+import React, { useState, useEffect, useRef, LegacyRef, use } from "react";
 
 import Lesson from "@/interfaces/lesson";
 import Booking from "@/interfaces/booking";
@@ -36,7 +36,7 @@ export default function Dashboard() {
   const [blurb, setBlurb] = useState<string>(session?.user.blurb as string);
   const [editBlurb, setEditBlurb] = useState<Boolean>();
 
-  const blurbElement = useRef<HTMLTextAreaElement>(null);
+  const [error, setError] = useState();
 
   useEffect(() => {
     setBlurb(session?.user.blurb as string);
@@ -182,7 +182,6 @@ export default function Dashboard() {
   };
 
   const handleBlurbEdit = async (e: React.FormEvent) => {
-    console.log(blurbElement.current);
     e.preventDefault();
     const res = await fetch("/api/profiles/edit-blurb", {
       method: "POST",
@@ -192,9 +191,11 @@ export default function Dashboard() {
       }),
     });
 
-    const data = await res.json();
+    const { data, error } = await res.json();
 
-    if (res.ok) {
+    if (!res.ok) {
+      setError(error);
+    } else {
       setEditBlurb(false);
     }
   };
@@ -312,9 +313,13 @@ export default function Dashboard() {
                       setBlurb(e.target.value)
                     }
                   ></textarea>
+                  {error && (
+                    <p className="text-sm font-medium text-red-500">{error}</p>
+                  )}
+
                   <button
                     type="submit"
-                    className="ml-auto rounded bg-indigo-400 px-4 py-2 text-white"
+                    className="ml-auto mt-2 rounded bg-indigo-400 px-4 py-2 text-white"
                   >
                     Submit
                   </button>
