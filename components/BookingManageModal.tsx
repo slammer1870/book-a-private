@@ -78,7 +78,7 @@ const BookingManageModal = ({
                   {new Date(date).toUTCString()}
                 </p>
               </div>
-              <div className="col-span-1 row-span-1 mb-4 flex flex-col">
+              <div className="col-span-1 row-span-1 mb-4 flex flex-col overflow-auto">
                 <span className="mb-2 text-sm font-semibold">Location:</span>
                 <p className="text-sm text-gray-700">{location}</p>
               </div>
