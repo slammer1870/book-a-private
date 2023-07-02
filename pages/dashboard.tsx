@@ -5,7 +5,7 @@ import LinkStripe from "@/components/LinkStripe";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, LegacyRef } from "react";
 
 import Lesson from "@/interfaces/lesson";
 import Booking from "@/interfaces/booking";
@@ -32,6 +32,15 @@ export default function Dashboard() {
   const [activeLesson, setActiveLesson] = useState<Lesson | undefined>();
   const [booking, setBooking] = useState<Lesson | undefined>();
   const [bookingForm, setBookingForm] = useState<Lesson | undefined>();
+
+  const [blurb, setBlurb] = useState<string>(session?.user.blurb as string);
+  const [editBlurb, setEditBlurb] = useState<Boolean>();
+
+  const blurbElement = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    setBlurb(session?.user.blurb as string);
+  }, [session]);
 
   useEffect(() => {
     const getLessons = async () => {
@@ -172,6 +181,24 @@ export default function Dashboard() {
     }
   };
 
+  const handleBlurbEdit = async (e: React.FormEvent) => {
+    console.log(blurbElement.current);
+    e.preventDefault();
+    const res = await fetch("/api/profiles/edit-blurb", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        blurb: blurb,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      setEditBlurb(false);
+    }
+  };
+
   if (!loading && !session) {
     return router.push("/signin");
   }
@@ -183,12 +210,12 @@ export default function Dashboard() {
         {loading && <p className="animate-pulse text-gray-700">Loading...</p>}
         {!loading && session?.user.stripeAccountVerified ? (
           <>
-            <div className="mb-4 flex items-end justify-between md:justify-start">
-              <p className="w-1/2 text-start text-gray-700 md:w-auto">
+            <div className="mb-4 flex flex-wrap">
+              <p className="mb-2 pr-2 text-start text-gray-700">
                 Welcome to your dashboard, your public profile url is:
               </p>
               <Link href={`/profiles/${session.user.username}`}>
-                <span className="ml-2 underline">
+                <span className="underline">
                   {process.env.NEXT_PUBLIC_VERCEL_URL}/profiles/
                   {session.user.username}
                 </span>
@@ -253,6 +280,47 @@ export default function Dashboard() {
                 </div>
               </div>
             )}
+            <div className="mb-4">
+              <div className="mb-4 flex items-center justify-between ">
+                <h3 className="text-2xl font-semibold">Your Profile Info</h3>
+                {!editBlurb && (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24.362 24.362"
+                    className="h-8 w-6 fill-gray-900"
+                    onClick={() => setEditBlurb(true)}
+                  >
+                    <path
+                      id="pen-to-square-solid"
+                      d="M22.674,6.065a2.69,2.69,0,0,0-3.808,0L17.419,7.507l4.707,4.707,1.447-1.447a2.69,2.69,0,0,0,0-3.808ZM8.289,16.642a2.656,2.656,0,0,0-.649,1.053L6.217,21.964A1.16,1.16,0,0,0,6.5,23.147a1.145,1.145,0,0,0,1.183.279L11.947,22A2.784,2.784,0,0,0,13,21.354l8.044-8.048L16.332,8.594ZM4.616,8.1A4.617,4.617,0,0,0,0,12.714V25.022a4.617,4.617,0,0,0,4.616,4.616H16.924a4.617,4.617,0,0,0,4.616-4.616V20.406a1.539,1.539,0,0,0-3.077,0v4.616a1.537,1.537,0,0,1-1.539,1.539H4.616a1.537,1.537,0,0,1-1.539-1.539V12.714a1.537,1.537,0,0,1,1.539-1.539H9.231a1.539,1.539,0,1,0,0-3.077Z"
+                      transform="translate(0 -5.275)"
+                    />
+                  </svg>
+                )}
+              </div>
+              {!editBlurb ? (
+                <p>{blurb}</p>
+              ) : (
+                <form className="flex flex-col" onSubmit={handleBlurbEdit}>
+                  <textarea
+                    name="blurb"
+                    aria-multiline="true"
+                    className="mb-4 w-full rounded border p-2"
+                    placeholder="e.g. 'Hello and welcome to my profile.&#10;Bookings are refundable up to 24 hours before booking start time.'"
+                    {...(blurb && { value: blurb })}
+                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                      setBlurb(e.target.value)
+                    }
+                  ></textarea>
+                  <button
+                    type="submit"
+                    className="ml-auto rounded bg-indigo-400 px-4 py-2 text-white"
+                  >
+                    Submit
+                  </button>
+                </form>
+              )}
+            </div>
             <div>
               <h3 className="mb-4 text-2xl font-semibold">
                 Manage your Availability
