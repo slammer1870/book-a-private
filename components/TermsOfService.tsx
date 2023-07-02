@@ -45,10 +45,10 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                   These terms and conditions (the &ldquo;Terms and
                   Conditions&ldquo;) govern the use of
                   <span style={{ fontStyle: "normal", fontWeight: "bold" }}>
-                    www.thaiboxingformma.com
+                    www.book-a-private.com
                   </span>
                   (the &ldquo;Site&ldquo;). This Site is owned and operated by
-                  thaiboxingformma.com. This Site is an ecommerce website.
+                  book-a-private.com. This Site is an ecommerce website.
                   <br />
                   <br />
                   By using this Site, you indicate that you have read and
@@ -76,8 +76,8 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                     </span>
                     <br />
                     All content published and made available on our Site is the
-                    property of thaiboxingformma.com and the Site&apos;s creators. This
-                    includes, but is not limited to images, text, logos,
+                    property of book-a-private.com and the Site&apos;s creators.
+                    This includes, but is not limited to images, text, logos,
                     documents, downloadable files and anything that contributes
                     to the composition of our Site.
                   </p>
@@ -799,7 +799,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                   >
                     To exercise your right to cancel you must inform us of your
                     decision to cancel within the cancellation period. To
-                    cancel, contact us by email at sam@thaiboxingformma.com or by
+                    cancel, contact us by email at sam@book-a-private.com or by
                     post at 1 Victoria Terrace. You may use a copy of the
                     <span style={{ fontStyle: "italic", fontWeight: "normal" }}>
                       Cancellation Form
@@ -1221,10 +1221,10 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                       Limitation of Liability
                     </span>
                     <br />
-                    thaiboxingformma.com and our directors, officers, agents, employees,
-                    subsidiaries, and affiliates will not be liable for any
-                    actions, claims, losses, damages, liabilities and expenses
-                    including legal fees from your use of the Site.
+                    book-a-private.com and our directors, officers, agents,
+                    employees, subsidiaries, and affiliates will not be liable
+                    for any actions, claims, losses, damages, liabilities and
+                    expenses including legal fees from your use of the Site.
                   </p>
                 </div>
                 <div>
@@ -1248,11 +1248,12 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                     </span>
                     <br />
                     Except where prohibited by law, by using this Site you
-                    indemnify and hold harmless thaiboxingformma.com and our directors,
-                    officers, agents, employees, subsidiaries, and affiliates
-                    from any actions, claims, losses, damages, liabilities and
-                    expenses including legal fees arising out of your use of our
-                    Site or your violation of these Terms and Conditions.
+                    indemnify and hold harmless book-a-private.com and our
+                    directors, officers, agents, employees, subsidiaries, and
+                    affiliates from any actions, claims, losses, damages,
+                    liabilities and expenses including legal fees arising out of
+                    your use of our Site or your violation of these Terms and
+                    Conditions.
                   </p>
                 </div>
                 <div>
@@ -1362,7 +1363,7 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                     <br />
                     0851 564894
                     <br />
-                    sam@thaiboxingformma.com
+                    sam@book-a-private.com
                     <br />
                     165 Lower Kilmacud Road,
                   </p>
@@ -1419,11 +1420,11 @@ export const TermsOfService = ({ handleTos }: ServiceProps) => {
                     below.
                     <br />
                     <br />
-                    To: www.thaiboxingformma.com
+                    To: www.book-a-private.com
                     <br />
                     Address: 165 Lower Kilmacud Road,
                     <br />
-                    Email: sam@thaiboxingformma.com
+                    Email: sam@book-a-private.com
                   </p>
                   <p
                     style={{

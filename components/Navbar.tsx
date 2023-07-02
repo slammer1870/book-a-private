@@ -15,7 +15,14 @@ const Navbar = () => {
         </Link>
         {!session && !loading && (
           <div>
-            <button onClick={() => signIn()} data-testid="login">
+            <Link href="/pricing">
+              <button className="underline">Pricing</button>
+            </Link>
+            <button
+              className="ml-4"
+              onClick={() => signIn()}
+              data-testid="login"
+            >
               Log In
             </button>
             <Link href="/register">
