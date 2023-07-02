@@ -19,6 +19,12 @@ export default async function handler(
         .send({ error: "Username must be greater than 4 characters." });
     }
 
+    if (username.length > 24) {
+      res
+        .status(401)
+        .send({ error: "Username must be less than 24 characters." });
+    }
+
     const user = await prisma.user.findUnique({
       where: {
         username: username.toLowerCase(),

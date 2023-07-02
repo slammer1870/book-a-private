@@ -19,6 +19,12 @@ export default async function handler(
     if (session) {
       const { id, date, location, price, available } = req.body;
 
+      if (location.length > 84) {
+        res
+          .status(401)
+          .send({ error: "Location must be less than 84 characters." });
+      }
+
       try {
         const lesson = await prisma.lesson.upsert({
           where: {

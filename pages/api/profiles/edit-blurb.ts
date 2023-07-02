@@ -19,6 +19,12 @@ export default async function handler(
     if (session) {
       const { blurb } = req.body;
 
+      if (blurb.length > 180) {
+        res
+          .status(401)
+          .send({ error: "Must be less than 180 characters." });
+      }
+
       try {
         const user = await prisma.user.update({
           where: {
