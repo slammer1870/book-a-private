@@ -178,7 +178,7 @@ export default function Profile() {
               </div>
               <div className="col-span-1 flex flex-col">
                 <h6 className="mb-1 text-sm font-medium">Date and time:</h6>
-                <p>{selectedDate?.toDateString()} </p>
+                <p>{new Date(selectedLesson?.date as Date).toLocaleString()}</p>
               </div>
               <div className="col-span-1 flex flex-col">
                 <h6 className="mb-1 text-sm font-medium">Instructor:</h6>

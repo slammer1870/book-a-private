@@ -106,7 +106,7 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const instructor_message = `New booking from ${booking.name} ${
           booking.email
-        } on ${new Date(lesson.date).toLocaleDateString()}`;
+        } on ${new Date(lesson.date).toLocaleString()}`;
 
         const instructor_msg = {
           to: user.email as string,
@@ -120,7 +120,7 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const user_message = `Thank you for your booking on ${new Date(
           lesson.date
-        ).toLocaleDateString()} with ${user.name} ${user.email}`;
+        ).toLocaleString()} with ${user.name} ${user.email}`;
 
         const user_msg = {
           to: email as string,

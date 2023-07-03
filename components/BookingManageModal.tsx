@@ -75,7 +75,7 @@ const BookingManageModal = ({
               <div className="col-span-1 row-span-1 mb-4 flex flex-col">
                 <span className="mb-2 text-sm font-semibold">Time:</span>
                 <p className="text-sm text-gray-700">
-                  {new Date(date).toUTCString()}
+                  {new Date(date).toLocaleString()}
                 </p>
               </div>
               <div className="col-span-1 row-span-1 mb-4 flex flex-col overflow-auto">
