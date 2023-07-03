@@ -22,6 +22,9 @@ export default async function handler(
           },
           available: true,
         },
+        orderBy: {
+          date: "asc",
+        },
       });
 
       return res.json(lessons);
