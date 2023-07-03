@@ -77,7 +77,7 @@ const BookingCreateModal = ({
             className="-mt-20 w-full max-w-screen-sm rounded bg-white p-4"
           >
             <h5 className="mb-4 text-xl font-medium">
-              Create a booking for {new Date(date).toLocaleString("en-US")}
+              Create a booking for {new Date(date).toLocaleString("en-GB")}
             </h5>
             <div className="grid grid-cols-2 grid-rows-1 gap-2">
               <div className="col-span-1 row-span-1 mb-4 flex flex-col">

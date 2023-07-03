@@ -49,6 +49,8 @@ const LessonModal = ({
       time[1]
     );
 
+    console.log(newDate);
+
     const url = lesson.id
       ? "/api/bookings/edit-lesson"
       : "/api/bookings/add-lesson";

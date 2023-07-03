@@ -237,9 +237,7 @@ export default function Dashboard() {
                         <div className="col-span-1 row-span-1 flex flex-col">
                           <div className="my-auto">
                             <p className="font-semibold">Date:</p>
-                            <span>
-                              {new Date(lesson.date).toLocaleString()}
-                            </span>
+                            <span>{new Date(lesson.date).toLocaleString()}</span>
                           </div>
                         </div>
                         <div className="col-span-1 row-span-1 flex flex-col">
