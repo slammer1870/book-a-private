@@ -174,7 +174,7 @@ export default function Profile() {
             <div className="mb-4 grid grid-cols-2 grid-rows-2 gap-4 border-b pb-4">
               <div className="col-span-1 flex flex-col">
                 <h6 className="mb-1 text-sm font-medium">Location:</h6>
-                <p>Brú Grappling Studio</p>
+                <p>{selectedLesson?.location}</p>
               </div>
               <div className="col-span-1 flex flex-col">
                 <h6 className="mb-1 text-sm font-medium">Date and time:</h6>
