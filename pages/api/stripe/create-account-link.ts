@@ -19,8 +19,8 @@ export default async function handler(
     try {
       const accountLink = await stripe.accountLinks.create({
         account: session.user.stripeAccountId as string,
-        refresh_url: `https://${process.env.NEXTAUTH_URL_INTERNAL}dashboard`,
-        return_url: `https://${process.env.NEXTAUTH_URL_INTERNAL}dashboard`,
+        refresh_url: `https://${process.env.NEXTAUTH_URL_INTERNAL}/dashboard`,
+        return_url: `https://${process.env.NEXTAUTH_URL_INTERNAL}/dashboard`,
         type: "account_onboarding",
       });
 
