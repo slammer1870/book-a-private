@@ -5,15 +5,13 @@ import LinkStripe from "@/components/LinkStripe";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
-import React, { useState, useEffect, useRef, LegacyRef, use } from "react";
+import React, { useState, useEffect } from "react";
 
 import Lesson from "@/interfaces/lesson";
 import Booking from "@/interfaces/booking";
 import Link from "next/link";
 import BookingCreateModal from "@/components/BookingCreateModal";
 
-import { DayPicker } from "react-day-picker";
-import "react-day-picker/dist/style.css";
 import Calendar from "@/components/Calendar";
 
 export default function Dashboard() {
@@ -237,7 +235,9 @@ export default function Dashboard() {
                         <div className="col-span-1 row-span-1 flex flex-col">
                           <div className="my-auto">
                             <p className="font-semibold">Date:</p>
-                            <span>{new Date(lesson.date).toLocaleString()}</span>
+                            <span>
+                              {new Date(lesson.date).toLocaleString()}
+                            </span>
                           </div>
                         </div>
                         <div className="col-span-1 row-span-1 flex flex-col">
