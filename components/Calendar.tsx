@@ -58,7 +58,7 @@ const Calendar = ({
 
   // calculate how many spaces need to be taken up by empty boxes on the calender given the start date of the month
   const calcArray = (day: number) => {
-    if (day > 1) {
+    if (day >= 1) {
       return day - 1;
     } else {
       return 1;
