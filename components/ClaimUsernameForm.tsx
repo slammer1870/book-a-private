@@ -65,7 +65,7 @@ const ClaimUsernameForm = () => {
         1. Claim your username and register your account
       </p>
       <p className="mb-2 text-lg text-gray-800">
-        2. Add your available dates, time and booking details.
+        2. Add your available dates, times and booking details.
       </p>
       <p className="mb-4 text-lg text-gray-800">
         3. Share your profile link and start to accept bookings!
